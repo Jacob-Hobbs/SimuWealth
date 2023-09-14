@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SimuWealth</title>
+</head>
+<body>
+<h1>Latest Stock Price for Ford</h1>
+
+<div th:if="${latestStockPrice != null}">
+    <p>The latest stock price for Ford is: <span th:text="${latestStockPrice}"></span></p>
+</div>
+
+<div th:if="${latestStockPrice == null}">
+    <p>Unable to retrieve the latest stock price for Ford.</p>
+</div>
+</body>
+</html>
