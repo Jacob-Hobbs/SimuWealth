@@ -1,9 +1,8 @@
 package com.projects.simuwealth.simuwealth.Service;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.projects.simuwealth.simuwealth.Entity.AlphaVantageResponse;
-import com.projects.simuwealth.simuwealth.Entity.TimeSeriesData;
+import com.projects.simuwealth.simuwealth.Service.ApiService.AlphaVantageResponse;
+import com.projects.simuwealth.simuwealth.Service.ApiService.TimeSeriesData;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 

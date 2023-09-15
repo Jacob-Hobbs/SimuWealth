@@ -1,6 +1,5 @@
-package com.projects.simuwealth.simuwealth.Entity;
+package com.projects.simuwealth.simuwealth.Service.ApiService;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
