@@ -69,25 +69,36 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4" style="color: white">Login to <i class="fas fa-dollar-sign fa-lg" style="color: #28A745;"></i>imuWealth</h1>
                             </div>
-                            <form class="user">
+                            <form class="user" th:action="@{/dashboard}" th:object="${user}" method="post">
                                 <div class="form-group row" style="padding-bottom: 20px">
                                     <div class="col-sm-6 mb-3 mb-sm-0 mx-auto" >
                                         <label for="emailInput" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-envelope"  style="color: #28A745"></i> Email</label>
                                         <input type="email" class="form-control form-control-user"
-                                               id="emailInput" placeholder="Email Address">
+                                               id="emailInput" placeholder="Email Address" th:field="*{email}">
                                     </div>
                                 </div>
                                 <div class="form-group row" style="padding-bottom: 40px">
                                     <div class="col-sm-6 mb-3 mb-sm-0 mx-auto" >
                                         <label for="passwordInput" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-key" style="color: #28A745"></i> Password</label>
                                         <input type="password" class="form-control form-control-user"
-                                               id="passwordInput" placeholder="Password">
+                                               id="passwordInput" placeholder="Password" th:field="*{password}">
                                     </div>
-
+                                </div>
+                                <div th:if="${invalidEmail}" class="alert alert-danger" style="position: absolute;
+                                left: 37%; transform: translateY(220px); box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                                    The entered email is incorrect.
+                                </div>
+                                <div th:if="${invalidPassword}" class="alert alert-danger" style="position: absolute;
+                                left: 40%; transform: translateY(220px); box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                                    The entered password is incorrect.
+                                </div>
+                                <div th:if="${invalidCredentials}" class="alert alert-danger" style="position: absolute;
+                                left: 37%; transform: translateY(220px); box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                                    The entered username and password are incorrect.
                                 </div>
                                 <div class="text-center" style="padding-bottom: 20px">
-                                    <a href="login.html" class="btn btn-success btn-user">
-                                        Login
+                                    <a href="login.html">
+                                        <button type="submit" class="btn btn-success btn-user" >Submit</button>
                                     </a>
                                 </div>
 

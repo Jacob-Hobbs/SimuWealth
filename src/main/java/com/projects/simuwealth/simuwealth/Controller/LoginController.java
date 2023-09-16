@@ -58,6 +58,51 @@ public class LoginController {
 
     }
 
+    @PostMapping("/dashboard")
+    public String loginUser(@ModelAttribute("user") User user, Model model) {
+
+        System.out.println("Email: " + user.getEmail());
+        System.out.println("Password: " + user.getPassword());
+
+        String userEmail = user.getEmail();
+        User userdata = userRepository.findByEmail(userEmail);
+
+        try {
+
+            if ((user.getPassword().equals(userdata.getPassword())) && (user.getEmail().equals(userdata.getEmail()))) {
+                return "index";
+            } else if ((user.getPassword().equals(userdata.getPassword())) && (!(user.getEmail().equals(userdata.getEmail())))) {
+                model.addAttribute("invalidEmail", true);
+                return "login";
+            } else if ((!(user.getPassword().equals(userdata.getPassword()))) && (user.getEmail().equals(userdata.getEmail()))) {
+                model.addAttribute("invalidPassword", true);
+                return "login";
+            }
+
+        } catch (Exception e) {
+            System.out.println("Incorrect username or password");
+            model.addAttribute("invalidCredentials", true);
+            return "login";
+        }
+        return "404";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @GetMapping("/forgotPassword")
     public String forgotPassword(Model model) {
         User user = new User();
