@@ -1,25 +1,33 @@
 package com.projects.simuwealth.simuwealth.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.projects.simuwealth.simuwealth.CustomAnnotations.EmailExists;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name= "user")
+@Table(name= "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+
 public class User {
 
     @Id
     @Column(name = "email")
+    @Email(message = "Please provide a valid email")
+    @NotEmpty(message = "Please provide an email")
+    @EmailExists
     private String email;
 
     @Column(name = "password")
+    @NotBlank
     private String password;
 
     @Column(name = "firstName")
+    @NotBlank
     private String firstName;
 
     @Column(name = "lastName")
+    @NotBlank
     private String lastName;
 
     public User() {

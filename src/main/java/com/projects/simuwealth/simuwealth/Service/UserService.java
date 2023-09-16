@@ -7,4 +7,8 @@ import org.springframework.stereotype.Service;
 public interface UserService {
 
     public void registerUser(User user);
+
+    boolean isEmailAlreadyInUse(String email);
+
+    void updatePasswordByEmail(String email, String newPassword);
 }

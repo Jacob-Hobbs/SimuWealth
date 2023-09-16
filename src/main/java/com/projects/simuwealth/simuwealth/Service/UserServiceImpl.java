@@ -15,4 +15,21 @@ public class UserServiceImpl implements UserService{
     public void registerUser(User user) {
         userRepository.save(user);
     }
+
+    @Override
+    public boolean isEmailAlreadyInUse(String email) {
+        User existingUser = userRepository.findByEmail(email);
+        return existingUser != null;
+    }
+
+    @Override
+    public void updatePasswordByEmail(String email, String newPassword) {
+        User user = userRepository.findByEmail(email);
+
+        if (user != null) {
+
+            user.setPassword(newPassword);
+            userRepository.save(user);
+        }
+    }
 }

@@ -67,44 +67,53 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4" style="color: white">Create a <i class="fas fa-dollar-sign fa-lg" style="color: #28A745;"></i>imuWealth Account!</h1>
                         </div>
-                        <form class="user">
+
+                        <form class="user" th:action="@{/registerUser}" th:object="${user}" method="post">
                             <div class="form-group row" style="padding-bottom: 20px">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="firstNameInput" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-user"  style="color: #28A745"></i> First Name</label>
                                     <input type="text" class="form-control form-control-user" id="firstNameInput"
-                                           placeholder="First Name">
+                                           placeholder="First Name" th:field="*{firstName}" required>
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="lastNameInput" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-user"  style="color: #28A745"></i> Last Name</label>
                                     <input type="text" class="form-control form-control-user" id="lastNameInput"
-                                           placeholder="Last Name">
+                                           placeholder="Last Name" th:field="*{lastName}" required>
                                 </div>
                             </div>
+                            <div th:if="${emailInUse}" class="alert alert-danger" style="position: absolute;
+                                left: 33%; transform: translateY(400px); box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                                Email already in use. Please choose another email address.
+                            </div>
                             <div class="form-group" style="padding-bottom: 20px">
-                                <label for="emailInput" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-envelope"  style="color: #28A745"></i> Email</label>
+                                <label for="emailInput" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-envelope"  style="color: #28A745"></i> Email
+                                </label>
                                 <input type="email" class="form-control form-control-user" id="emailInput"
-                                       placeholder="Email Address">
+                                       placeholder="Email Address" th:field="*{email}" required>
                             </div>
                             <div class="form-group row" style="padding-bottom: 40px">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="passwordInput" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-key"  style="color: #28A745"></i> Password</label>
                                     <input type="password" class="form-control form-control-user"
-                                           id="passwordInput" placeholder="Password">
+                                           id="passwordInput" placeholder="Password" th:field="*{password}" required>
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="confirmPasswordInput" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-key"  style="color: #28A745"></i> Confirm Password</label>
                                     <input type="password" class="form-control form-control-user"
-                                           id="confirmPasswordInput" placeholder="Confirm Password">
+                                           id="confirmPasswordInput" name="confirmPasswordInput" placeholder="Confirm Password" required>
                                 </div>
                             </div>
+                            <div th:if="${passwordMismatch}" class="alert alert-danger" style="position: absolute;
+                                left: 37%; transform: translateY(202px); box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                                The entered passwords do not match.
+                            </div>
                             <div class="text-center" style="padding-bottom: 20px">
-                                <a href="/login" class="btn btn-success btn-user">
-                                    Register Account
+                                <a href="login.html">
+                                    <button type="submit" class="btn btn-success btn-user" >Register Account</button>
                                 </a>
                             </div>
-
-
                         </form>
+
                         <hr style="color: #ffffff; height: 2px; background-color: #ffffff">
                         <div class="text-center">
                             <a class="small" href="/forgotPassword" style="color: #28A745">Forgot Password?</a>
