@@ -70,7 +70,7 @@ public class LoginController {
         try {
 
             if ((user.getPassword().equals(userdata.getPassword())) && (user.getEmail().equals(userdata.getEmail()))) {
-                return "index";
+                return "dashboard";
             } else if ((user.getPassword().equals(userdata.getPassword())) && (!(user.getEmail().equals(userdata.getEmail())))) {
                 model.addAttribute("invalidEmail", true);
                 return "login";
