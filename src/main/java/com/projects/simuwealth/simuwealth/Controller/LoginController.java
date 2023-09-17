@@ -87,22 +87,6 @@ public class LoginController {
         return "404";
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/forgotPassword")
     public String forgotPassword(Model model) {
         User user = new User();
@@ -159,6 +143,11 @@ public class LoginController {
             return "redirect:/login";
         }
 
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/login";
     }
 
 

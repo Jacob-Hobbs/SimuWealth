@@ -2,6 +2,7 @@ package com.projects.simuwealth.simuwealth.Service;
 
 import com.projects.simuwealth.simuwealth.Entity.User;
 import com.projects.simuwealth.simuwealth.Repository.UserRepository;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +33,5 @@ public class UserServiceImpl implements UserService{
             userRepository.save(user);
         }
     }
+
 }

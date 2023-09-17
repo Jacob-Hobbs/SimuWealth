@@ -11,4 +11,5 @@ public interface UserService {
     boolean isEmailAlreadyInUse(String email);
 
     void updatePasswordByEmail(String email, String newPassword);
+
 }

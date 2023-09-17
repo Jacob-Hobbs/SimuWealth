@@ -50,5 +50,10 @@ public class UserController {
         }
     }
 
+    @GetMapping("/userProfile")
+    public String userProfile() {
+        return "profile";
+    }
+
 
 }
