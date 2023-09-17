@@ -64,7 +64,7 @@
            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small"
                           th:text="${currentUser.firstName + ' ' + currentUser.lastName}"></span>
-          <img class="img-profileSmall rounded-circle"
+          <img class="Small rounded-circle"
                th:src="@{/images/__${currentUser.profilePicture}__}" style="width: 40px;" alt="Profile Picture">
         </a>
         <!-- Dropdown - User Information -->
@@ -178,27 +178,25 @@
 
         <!-- Area Chart -->
         <div class="col-xl-12 col-lg-7" >
-          <div class="card shadow mb-4" >
+          <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: #08210E">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: #08210E;">
               <h6 class="m-0 font-weight-bold text-success">Edit Profile</h6>
               <div class="dropdown no-arrow">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #28A745">
                   <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                     aria-labelledby="dropdownMenuLink">
-                  <div class="dropdown-header">Dropdown Header:</div>
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                     aria-labelledby="dropdownMenuLink" style="color: red">
+                  <div class="dropdown-header">Additional Options:</div>
+                  <a class="dropdown-item" href="#" id="deleteAccountLink">Delete Account</a>
+
                 </div>
               </div>
             </div>
             <!-- Card Body -->
-            <div class="card-body" style="background-color: #08210E">
+            <div class="card-body" style="background-color: #08210E; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
               <div class="row">
                 <div class="col-md-6 text-center">
                   <!-- Content for the first column goes here -->
@@ -218,30 +216,15 @@
                     </div>
                   </div>
 
-                  <script>
-                    // Get references to the main profile picture and clickable profile pictures
-                    const mainProfilePicture = document.querySelector(".img-profile");
-                    const profilePicOne = document.getElementById("profilePicOne");
-                    const profilePicTwo = document.getElementById("profilePicTwo");
-                    const profilePicThree = document.getElementById("profilePicThree");
 
-                    // Add click event listeners to the clickable profile pictures
-                    profilePicOne.addEventListener("click", () => {
-                      mainProfilePicture.src = "/images/profilePicOne.png";
-                    });
 
-                    profilePicTwo.addEventListener("click", () => {
-                      mainProfilePicture.src = "/images/profilePicTwo.png";
-                    });
 
-                    profilePicThree.addEventListener("click", () => {
-                      mainProfilePicture.src = "/images/profilePicThree.png";
-                    });
-                  </script>
+
+
 
 
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" style="padding-right: 50px">
                   <!-- Content for the second column goes here -->
                   <form class="user" th:action="@{/userProfile}" th:object="${currentUser}" method="post" style="padding-top: 55px">
                     <div class="form-group row" style="padding-bottom: 20px">
@@ -262,6 +245,9 @@
                       <input type="email" class="form-control form-control-user" id="emailInput"
                              placeholder="Email Address" th:field="*{email}" required>
                     </div>
+
+                    <input type="hidden" id="selectedProfilePicture" name="selectedProfilePicture" th:field="*{profilePicture}" />
+
                     <div class="text-center" style="padding-bottom: 20px">
                       <a href="login.html">
                         <button type="submit" class="btn btn-success btn-user" >Submit Changes</button>
@@ -282,10 +268,69 @@
   </div>
 </div>
 
+<script>
+  const mainProfilePicture = document.querySelector(".img-profile");
+  const profilePicOne = document.getElementById("profilePicOne");
+  const profilePicTwo = document.getElementById("profilePicTwo");
+  const profilePicThree = document.getElementById("profilePicThree");
+  const selectedProfilePicture = document.getElementById("selectedProfilePicture");
+
+  // Add click event listeners to the clickable profile pictures
+  profilePicOne.addEventListener("click", () => {
+    mainProfilePicture.src = "/images/profilePicOne.png";
+    selectedProfilePicture.value = "profilePicOne.png";
+  });
+
+  profilePicTwo.addEventListener("click", () => {
+    mainProfilePicture.src = "/images/profilePicTwo.png";
+    selectedProfilePicture.value = "profilePicTwo.png";
+  });
+
+  profilePicThree.addEventListener("click", () => {
+    mainProfilePicture.src = "/images/profilePicThree.png";
+    selectedProfilePicture.value = "profilePicThree.png";
+  });
+</script>
+
 <!-- Include Bootstrap JS and any other JavaScript libraries -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Add your custom JavaScript if needed -->
+<div class="modal" tabindex="-1" role="dialog" id="deleteConfirmationModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Account Confirmation</h5>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete your account?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelDelete">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Show the modal when the link is clicked
+  document.getElementById('deleteAccountLink').addEventListener('click', function () {
+    $('#deleteConfirmationModal').modal('show');
+  });
+
+  // Handle the account deletion when the confirmation button is clicked
+  document.getElementById('confirmDelete').addEventListener('click', function () {
+    // Redirect to the delete account endpoint
+    window.location.href = '/deleteAccount';
+  });
+
+  document.getElementById('cancelDelete').addEventListener('click', function () {
+    $('#deleteConfirmationModal').modal('hide');
+  });
+</script>
+
+
 </body>
 </html>

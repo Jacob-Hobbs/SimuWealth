@@ -89,6 +89,9 @@ public class UserController {
         currentUser.setLastName(updatedUser.getLastName());
         currentUser.setEmail(updatedUser.getEmail());
 
+        System.out.println("SELECTED IMAGE: " + updatedUser.getProfilePicture());
+        currentUser.setProfilePicture(updatedUser.getProfilePicture());
+
 
         // Save the updated user object to the database
         userRepository.save(currentUser);
@@ -97,6 +100,20 @@ public class UserController {
         request.getSession().setAttribute("currentUser", currentUser);
 
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("/deleteAccount")
+    public String deleteAccount(HttpServletRequest request) {
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+
+        // Delete the user from the database
+        userRepository.delete(currentUser);
+
+        // Invalidate the session
+        request.getSession().invalidate();
+
+        // Redirect to the login page
+        return "redirect:/login";
     }
 
 
