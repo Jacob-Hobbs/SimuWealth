@@ -6,11 +6,18 @@ import com.projects.simuwealth.simuwealth.Repository.UserRepository;
 import com.projects.simuwealth.simuwealth.Service.MailService.EmailSenderService;
 import com.projects.simuwealth.simuwealth.Service.UserService;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 @Controller
 @RequestMapping("/")
@@ -59,7 +66,7 @@ public class LoginController {
     }
 
     @PostMapping("/dashboard")
-    public String loginUser(@ModelAttribute("user") User user, Model model) {
+    public String loginUser(@ModelAttribute("user") User user, Model model, HttpServletRequest request, HttpSession session) {
 
         System.out.println("Email: " + user.getEmail());
         System.out.println("Password: " + user.getPassword());
@@ -67,9 +74,30 @@ public class LoginController {
         String userEmail = user.getEmail();
         User userdata = userRepository.findByEmail(userEmail);
 
+        System.out.println("First Name: " + userdata.getFirstName());
+        System.out.println("Last Name: " + userdata.getLastName());
+
         try {
 
             if ((user.getPassword().equals(userdata.getPassword())) && (user.getEmail().equals(userdata.getEmail()))) {
+
+                // Check if the user has a profile picture; if not, set it to the default image
+                if (userdata.getProfilePicture() == null) {
+
+                    String defaultImagePath = "profilePicOne.png";
+                    userdata.setProfilePicture(defaultImagePath);
+                    userRepository.save(userdata);
+
+                }
+
+                // Store user in current session
+                request.getSession().setAttribute("currentUser", userdata);
+                session.setAttribute("currentUser", userdata);
+                model.addAttribute("currentUser", userdata);
+
+                System.out.println("Session info: ");
+                System.out.println(session.getAttribute("currentUser").toString());
+
                 return "dashboard";
             } else if ((user.getPassword().equals(userdata.getPassword())) && (!(user.getEmail().equals(userdata.getEmail())))) {
                 model.addAttribute("invalidEmail", true);
@@ -86,6 +114,15 @@ public class LoginController {
         }
         return "404";
     }
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/forgotPassword")
     public String forgotPassword(Model model) {
@@ -146,7 +183,11 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
+    public String logout(HttpServletRequest request) {
+
+        // clears out all session data, including "currentUser" attribute
+        request.getSession().invalidate();
+
         return "redirect:/login";
     }
 

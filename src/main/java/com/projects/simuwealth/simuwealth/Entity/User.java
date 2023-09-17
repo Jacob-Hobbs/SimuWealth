@@ -6,12 +6,18 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.util.Arrays;
+
 @Entity
 @Table(name= "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private int userId; // New primary key
+
     @Column(name = "email")
     @Email(message = "Please provide a valid email")
     @NotEmpty(message = "Please provide an email")
@@ -30,15 +36,28 @@ public class User {
     @NotBlank
     private String lastName;
 
+    @Column(name = "profilePicture")
+    private String profilePicture;
+
     public User() {
         // blank constructor as required by JPA/Hibernate
     }
 
-    public User(String email, String password, String firstName, String lastName) {
+    public User(int userId, String email, String password, String firstName, String lastName, String profilePicture) {
+        this.userId = userId;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.profilePicture = profilePicture;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getEmail() {
@@ -73,13 +92,23 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "email='" + email + '\'' +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
                 '}';
     }
 }
