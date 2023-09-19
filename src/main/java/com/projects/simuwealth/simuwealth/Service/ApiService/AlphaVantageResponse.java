@@ -10,7 +10,7 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AlphaVantageResponse {
 
-    @JsonProperty("Time Series (1min)")
+    @JsonProperty("Time Series (5min)")
     private Map<String, TimeSeriesData> timeSeries;
 
 }

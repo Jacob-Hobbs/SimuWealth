@@ -39,7 +39,19 @@
     <!-- Search Bar -->
     <div class="input-group" style="border: 1px solid #ced4da; border-radius: 0.25rem; width: 400px; transform: translateX(130px)">
         <div class="form-outline" style="border: none;">
-            <input type="search" id="form1" class="form-control" style="border: none;" />
+            <input type="search" id="form1" class="form-control" style="border: none;" oninput="searchStocks(this.value)" />
+            <ul id="suggestion-list" style="position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #08210E;
+        color: #28A745;
+        border: 1px solid #ccc;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 2;">
+                <!-- Your list items -->
+            </ul>
             <label class="form-label" for="form1" style="border: none;">Search</label>
         </div>
         <button type="button" class="btn btn-success" style="border: none;">
@@ -64,9 +76,9 @@
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         Profile
                     </a>
-                    <a class="dropdown-item" href="#">
-                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Settings
+                    <a class="dropdown-item" href="/manageFunds">
+                        <i class="fas fa-coins fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Manage Funds
                     </a>
                     <a class="dropdown-item" href="#">
                         <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -85,11 +97,11 @@
 </nav>
 
 <!-- Dashboard Content -->
-<div class="container-fluid" >
     <div class="row" >
-        <!-- Sidebar -->
-        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar" style="width: 10px">
-            <div class="sidebar">
+
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar" style="width: 10px;">
+
+            <div class="sidebar-content">
                 <!-- Sidebar content goes here -->
                 <ul class="nav flex-column" style="background-color: #08210E;
         padding: 0;
@@ -99,7 +111,7 @@
         width: 250px;
         left: 0;
         margin: 0;">
-                    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html" style="padding-top: 15px;
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="padding-top: 15px;
                         font-size: 32px; color: white">
                         <div class="sidebar-brand-text mx-3"><i class="fas fa-dollar-sign fa-lg" style="color: #28A745;">
                         </i>imuWealth
@@ -138,7 +150,7 @@
                             Market
                         </div>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#" style="color: white; padding-top: 20px; padding-left: 35px">
+                            <a class="nav-link active" href="/buyStock" style="color: white; padding-top: 20px; padding-left: 35px">
                                 <i class="fas fa-scale-unbalanced"></i>&nbsp Buy Stock
                             </a>
                         </li>
@@ -155,10 +167,11 @@
             </div>
         </nav>
 
+
         <!-- Main Content Area -->
-        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="transform: translateX(-30px)">
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="transform: translateX(-30px); position: relative; z-index: -500">
             <!-- Your dashboard content goes here -->
-            <h1 style="padding-top: 20px; color: #08210E; font-size: 30px">Dashboard</h1>
+            <h1 style="padding-top: 20px; color: #08210E; font-size: 30px;">Dashboard</h1>
 
 
             <!-- Add content like charts, tables, etc. -->
@@ -313,5 +326,52 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Add your custom JavaScript if needed -->
+<script>
+    function searchStocks(keyword) {
+        const apiKey = "CJ4959GSEKSYP5DW"; // Replace with your API key
+        const apiUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=${apiKey}&datatype=json`;
+
+        // Fetch data from AlphaVantage API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Get the search results
+                const searchResults = data.bestMatches;
+
+                // Get the suggestion list element
+                const suggestionList = document.getElementById("suggestion-list");
+
+                // Clear previous suggestions
+                suggestionList.innerHTML = "";
+
+                // Create and append suggestion items
+                searchResults.forEach(result => {
+                    const symbol = result["1. symbol"];
+                    const name = result["2. name"];
+                    const suggestionItem = document.createElement("li");
+
+                    // Set the suggestion text and add a click handler to populate the input field
+                    suggestionItem.textContent = `${symbol} - ${name}`;
+                    suggestionItem.addEventListener("click", () => {
+                        document.getElementById("form1").value = symbol;
+                        suggestionList.innerHTML = ""; // Clear the suggestion list
+                    });
+
+                    suggestionList.appendChild(suggestionItem);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    }
+</script>
+
+
+
+
+
+
+
+
 </body>
 </html>

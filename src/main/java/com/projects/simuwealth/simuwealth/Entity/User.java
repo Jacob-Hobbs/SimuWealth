@@ -39,17 +39,21 @@ public class User {
     @Column(name = "profilePicture")
     private String profilePicture;
 
+    @Column(name = "capitol")
+    private double capitol;
+
     public User() {
         // blank constructor as required by JPA/Hibernate
     }
 
-    public User(int userId, String email, String password, String firstName, String lastName, String profilePicture) {
+    public User(int userId, String email, String password, String firstName, String lastName, String profilePicture, double capitol) {
         this.userId = userId;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.profilePicture = profilePicture;
+        this.capitol = capitol;
     }
 
     public int getUserId() {
@@ -100,6 +104,14 @@ public class User {
         this.profilePicture = profilePicture;
     }
 
+    public double getCapitol() {
+        return capitol;
+    }
+
+    public void setCapitol(double capitol) {
+        this.capitol = capitol;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -109,6 +121,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +
+                ", capitol=" + capitol +
                 '}';
     }
 }

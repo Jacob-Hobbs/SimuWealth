@@ -1,6 +1,8 @@
 package com.projects.simuwealth.simuwealth.Controller;
 
+import com.projects.simuwealth.simuwealth.Entity.User;
 import com.projects.simuwealth.simuwealth.Service.StockService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +35,21 @@ public class StockController {
             }
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "error"; // Create an error Thymeleaf template for displaying errors.
+            return "404"; // Create an error Thymeleaf template for displaying errors.
+        }
+    }
+
+    @GetMapping("/buyStock")
+    public String buyStockPage(Model model, HttpServletRequest request) {
+
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+
+
+        if (currentUser != null) {
+            model.addAttribute("currentUser", currentUser);
+            return "buyStock";
+        } else {
+            return "redirect:/login";
         }
     }
 

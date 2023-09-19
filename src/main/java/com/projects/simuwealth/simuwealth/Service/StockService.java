@@ -11,7 +11,7 @@ import java.util.Map;
 @Service
 public class StockService {
 
-    private final String alphaVantageApiKey = "EQY5LA8D04AV8HAN";
+    private final String alphaVantageApiKey = "CJ4959GSEKSYP5DW";
     private final String alphaVantageBaseUrl = "https://www.alphavantage.co/query";
 
     private final ObjectMapper objectMapper;
@@ -38,7 +38,7 @@ public class StockService {
     public Double getStockPrice(String ticker) {
         String apiUrl = alphaVantageBaseUrl +
                 "?function=TIME_SERIES_INTRADAY&symbol=" + ticker +
-                "&interval=1min&apikey=" + alphaVantageApiKey;
+                "&interval=5min&entitlement=delayed&apikey=" + alphaVantageApiKey;
 
         RestTemplate restTemplate = new RestTemplate();
         String jsonResponse = restTemplate.getForObject(apiUrl, String.class);

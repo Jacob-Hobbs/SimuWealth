@@ -39,18 +39,21 @@ public class LoginController {
         defaultAdmin.setFirstName("Jacob");
         defaultAdmin.setLastName("Hobbs");
         defaultAdmin.setPassword("password");
+        defaultAdmin.setCapitol(10000.00);
 
         User testAdmin = new User();
         testAdmin.setEmail("jrh0397@gmail.com");
         testAdmin.setFirstName("Jacob");
         testAdmin.setLastName("Hobbs");
         testAdmin.setPassword("password");
+        testAdmin.setCapitol(5450.39);
 
         User jackiAdmin = new User();
         jackiAdmin.setEmail("jackimcgoon@gmail.com");
         jackiAdmin.setFirstName("Jacki");
         jackiAdmin.setLastName("Hobbs");
         jackiAdmin.setPassword("password");
+        jackiAdmin.setCapitol(13499.99);
 
         userRepository.save(defaultAdmin);
         userRepository.save(testAdmin);
