@@ -33,7 +33,7 @@
 </head>
 <body class="bg-gradient-primary" style="background-color: #EFFBF1;">
 <!-- Top Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); position: page; z-index: 2">
 
     <a class="navbar-brand" href="#">Your Dashboard</a>
     <!-- Search Bar -->
@@ -49,7 +49,7 @@
         border: 1px solid #ccc;
         max-height: 200px;
         overflow-y: auto;
-        z-index: 2;">
+        z-index: 3;">
                 <!-- Your list items -->
             </ul>
             <label class="form-label" for="form1" style="border: none;">Search</label>
@@ -97,9 +97,10 @@
 </nav>
 
 <!-- Dashboard Content -->
+<div>
     <div class="row" >
 
-        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar" style="width: 10px;">
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar" style="width: 10px; position: page; z-index: 6">
 
             <div class="sidebar-content">
                 <!-- Sidebar content goes here -->
@@ -169,7 +170,7 @@
 
 
         <!-- Main Content Area -->
-        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="transform: translateX(-30px); position: relative; z-index: -500">
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="transform: translateX(-30px); z-index: 1">
             <!-- Your dashboard content goes here -->
             <h1 style="padding-top: 20px; color: #08210E; font-size: 30px;">Dashboard</h1>
 
