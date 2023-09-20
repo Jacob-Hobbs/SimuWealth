@@ -2,6 +2,7 @@ package com.projects.simuwealth.simuwealth.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projects.simuwealth.simuwealth.Service.ApiService.AlphaVantageResponse;
+import com.projects.simuwealth.simuwealth.Service.ApiService.StockData;
 import com.projects.simuwealth.simuwealth.Service.ApiService.TimeSeriesData;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -76,4 +77,37 @@ public class StockService {
             return null;
         }
     }
+
+    public StockData getGlobalQuote(String ticker) {
+        String apiUrl = alphaVantageBaseUrl +
+                "?function=GLOBAL_QUOTE&symbol=" + ticker +
+                "&entitlement=delayed&apikey=" + alphaVantageApiKey;
+
+        RestTemplate restTemplate = new RestTemplate();
+        String jsonResponse = restTemplate.getForObject(apiUrl, String.class);
+
+        System.out.println("JSON Response: " + jsonResponse);
+
+        AlphaVantageResponse response = deserializeJson(jsonResponse);
+
+        System.out.println("GLOBAL DESERIALIZED RESPONSE: " + response);
+
+        try {
+            if (response != null && response.getStockDataMap() != null) {
+                // Use the correct key to retrieve the StockData object
+                StockData stockData = response.getStockDataMap().get("Global Quote - DATA DELAYED BY 15 MINUTES");
+                System.out.println("StockData: " + stockData); // Add this line for debugging
+                return stockData;
+            } else {
+                // Handle the case where no global quote data is available
+                System.out.println("No global quote data available.");
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception or log it for further investigation
+            return null;
+        }
+    }
+
 }

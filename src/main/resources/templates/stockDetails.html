@@ -30,16 +30,16 @@
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
     ></script>
+
+
+
+
 </head>
 <body class="bg-gradient-primary" style="background-color: #EFFBF1;">
 <!-- Top Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); position: page; z-index: 2">
 
     <a class="navbar-brand" href="#">Your Dashboard</a>
-
-
-
-
     <!-- Search Bar -->
     <form action="/stockDetails" method="get">
         <div class="input-group" style="border: 1px solid #ced4da; border-radius: 0.25rem; width: 400px; transform: translateX(130px)">
@@ -64,13 +64,6 @@
             </button>
         </div>
     </form>
-
-
-
-
-
-
-
     <!-- Add navigation links or dropdown menus here -->
     <div class="collapse navbar-collapse" id="navbarNav" style="padding-right: 30px">
         <ul class="navbar-nav ml-auto">
@@ -78,7 +71,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                        th:text="${currentUser.firstName + ' ' + currentUser.lastName}"></span>
+                          th:text="${currentUser.firstName + ' ' + currentUser.lastName}"></span>
                     <img class="img-profile rounded-circle"
                          th:src="@{/images/__${currentUser.profilePicture}__}" style="width: 40px;" alt="Profile Picture">
                 </a>
@@ -181,11 +174,10 @@
             </div>
         </nav>
 
-
         <!-- Main Content Area -->
         <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="transform: translateX(-30px); z-index: 1">
             <!-- Your dashboard content goes here -->
-            <h1 style="padding-top: 20px; color: #08210E; font-size: 30px;">Dashboard</h1>
+            <h1 style="padding-top: 20px; color: #08210E; font-size: 30px;">Stock Details</h1>
 
 
             <!-- Add content like charts, tables, etc. -->
@@ -194,73 +186,89 @@
             <div class="row">
 
                 <!-- Area Chart -->
-                <div class="col-xl-8 col-lg-7" >
-                    <div class="card shadow mb-4" >
-                        <!-- Card Header - Dropdown -->
-                        <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body" >
-                            <div class="chart-area">
-                                <canvas id="myAreaChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pie Chart -->
-                <div class="col-xl-4 col-lg-5">
+                <div class="col-xl-12 col-lg-7" >
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
-                        <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: #08210E;">
+                            <h6 class="m-0 font-weight-bold text-success">Stock Performance and Overview</h6>
+
                         </div>
                         <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-pie pt-4 pb-2">
-                                <canvas id="myPieChart"></canvas>
-                            </div>
-                            <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
+                        <div class="card-body" style="background-color: #08210E; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <h2 style="color: white">
+                                        <span th:text="${stockData.symbol}" style="color: #28A745"></span> Daily Performance:</h2>
+                                    <!-- Content for the first column goes here -->
+                                    <img class="card-img-left" th:src="@{/images/piggyBankKid.jpeg}" alt="Profile Pic" style="width: 500px; border-radius: 20px">
+                                    <div class="row" style="color: white">
+                                        <div class="col-md-6">
+                                            <h5>Real Change: <span th:text="${stockData.change}" style="color: #28A745" th:id="realChangeSpan"></span></h5>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>Percent Change: <span th:text="${stockData.changePercent}" style="color: #28A745" th:id="percentChangeSpan"></span></h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <div class="col-md-6" style="padding-right: 50px; display: flex; flex-direction: column; align-items: center;">
+                                    <!-- Content for the second column goes here -->
+
+                                    <h2 style="color: white; text-align: center; padding-top: 1px">
+                                        Current Price: &nbsp;<i class="fas fa-dollar-sign fa" style="color: #28A745;"></i>
+                                        <span th:text="${stockData.price}" style="color: #28A745" id="currentPrice" th:id="currentPriceSpan"></span>
+                                    </h2>
+
+                                    <form class="user" th:action="@{/stockDetails}" th:object="${stockData}" method="post" style="padding-top: 30px;">
+
+                                        <div class="form-group" style="padding-bottom: 20px;">
+                                            <label for="openPrice" style="justify-self: left; padding-bottom: 7px; color: white">
+                                                <i class="fas fa-chart-line" style="color: #28A745"></i> Stock Time Series Data
+                                            </label>
+                                            <div class="input-group" style="width: 250px">
+                                                <span class="input-group-text" style="color: #28A745; width: 115px">Open:</span>
+                                                <input type="number" class="form-control" id="openPrice"
+                                                       placeholder="0.00" step="0.01" min="0" disabled th:value="${stockData.open}">
+                                            </div>
+                                            <div class="input-group" style="width: 250px">
+                                                <span class="input-group-text" style="color: #28A745; width: 115px">High:</span>
+                                                <input type="number" class="form-control" id="highPrice"
+                                                       placeholder="0.00" step="0.01" min="0" disabled th:value="${stockData.high}">
+                                            </div>
+                                            <div class="input-group" style="width: 250px">
+                                                <span class="input-group-text" style="color: #28A745; width: 115px">Low:</span>
+                                                <input type="number" class="form-control" id="lowPrice"
+                                                       placeholder="0.00" step="0.01" min="0" disabled th:value="${stockData.low}">
+                                            </div>
+                                            <div class="input-group" style="width: 250px">
+                                                <span class="input-group-text" style="color: #28A745; width: 115px">Volume:</span>
+                                                <input type="number" class="form-control" id="stockVolume"
+                                                       placeholder="0.00" step="0.01" min="0" disabled th:value="${stockData.volume}">
+                                            </div>
+                                            <div class="input-group" style="width: 250px">
+                                                <span class="input-group-text" style="color: #28A745; width: 115px">Prev. Close:</span>
+                                                <input type="number" class="form-control" id="previousClosePrice"
+                                                       placeholder="0.00" step="0.01" min="0" disabled th:value="${stockData.previousClose}">
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center" style="padding-bottom: 20px">
+                                            <a href="/buyStock">
+                                                <button type="submit" class="btn btn-success btn-user" ><i class="fas fa-cart-shopping"></i>&nbsp; Buy IBM</button>
+                                            </a>
+                                        </div>
+                                        <div class="text-center" style="padding-bottom: 20px">
+                                            <a href="login.html">
+                                                <button type="submit" class="btn btn-success btn-user" ><i class="fas fa-eye"></i>&nbsp Add to Watchlist</button>
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -268,72 +276,13 @@
             </div>
 
 
-            <div class="row">
-                <!-- Area Chart 1 -->
-                <div class="col-xl-6 col-lg-6">
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink1">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-area">
-                                <canvas id="myAreaChart1"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Area Chart 2 -->
-                <div class="col-xl-6 col-lg-6">
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink2">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-area">
-                                <canvas id="myAreaChart2"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
         </main>
     </div>
 </div>
+
+
 
 <!-- Include Bootstrap JS and any other JavaScript libraries -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -380,11 +329,84 @@
     }
 </script>
 
+<script>
+    // Format the numbers with two decimal places
+    const formatNumber = (inputId) => {
+        const inputElement = document.getElementById(inputId);
+        if (inputElement) {
+            const originalValue = parseFloat(inputElement.value);
+            if (!isNaN(originalValue)) {
+                const formattedValue = originalValue.toFixed(2);
+                inputElement.value = formattedValue;
+            }
+        }
+    };
 
+    // Call the formatNumber function for each input field
+    formatNumber("openPrice");
+    formatNumber("highPrice");
+    formatNumber("lowPrice");
+    formatNumber("previousClosePrice");
+    formatNumber("currentPrice");
+    // Call formatNumber for other input fields in a similar manner
+</script>
 
+<script>
+    // Format the stockData.price value with two decimal places
+    const formatPrice = () => {
+        const priceSpan = document.getElementById("currentPriceSpan");
+        if (priceSpan) {
+            const originalValue = parseFloat(priceSpan.textContent);
+            if (!isNaN(originalValue)) {
+                const formattedValue = originalValue.toFixed(2);
+                priceSpan.textContent = formattedValue;
+            }
+        }
+    };
 
+    // Call the formatPrice function when the page loads
+    window.addEventListener("load", formatPrice);
+</script>
 
+<script>
+    // Format the stockData.change value with two decimal places and set color
+    const formatChange = () => {
+        const changeSpan = document.getElementById("realChangeSpan");
+        if (changeSpan) {
+            const originalValue = parseFloat(changeSpan.textContent);
+            if (!isNaN(originalValue)) {
+                const formattedValue = originalValue.toFixed(2);
+                changeSpan.textContent = formattedValue;
 
+                // Set the color to red for negative values
+                if (originalValue < 0) {
+                    changeSpan.style.color = "red";
+                }
+            }
+        }
+    };
+
+    // Format the stockData.changePercent value with two decimal places and set color
+    const formatChangePercent = () => {
+        const changePercentSpan = document.getElementById("percentChangeSpan");
+        if (changePercentSpan) {
+            const originalValue = parseFloat(changePercentSpan.textContent.replace("%", ""));
+            if (!isNaN(originalValue)) {
+                const formattedValue = originalValue.toFixed(2) + "%";
+                changePercentSpan.textContent = formattedValue;
+
+                // Set the color to red for negative values
+                if (originalValue < 0) {
+                    changePercentSpan.style.color = "red";
+                }
+            }
+        }
+    };
+
+    // Call the formatChange and formatChangePercent functions when the page loads
+    window.addEventListener("load", formatChange);
+    window.addEventListener("load", formatChangePercent);
+</script>
 
 
 </body>
