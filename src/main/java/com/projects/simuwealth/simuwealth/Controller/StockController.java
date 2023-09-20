@@ -65,21 +65,21 @@ public class StockController {
 
             // Fetch global quote data for the specified stockSymbol
             StockData stockData = stockService.getGlobalQuote(stockSymbol);
-            System.out.println("Open: " + stockData.getOpen());
-            System.out.println("High: " + stockData.getHigh());
-            System.out.println("Low: " + stockData.getLow());
-            System.out.println("Volume: " + stockData.getVolume());
-            System.out.println("Prev. Close: " + stockData.getPreviousClose());
 
             if (stockData != null) {
-                model.addAttribute("stockData", stockData);
-
+                // Check if the stockData contains valid data
+                if (stockData.getOpen() != null && stockData.getHigh() != null && stockData.getLow() != null &&
+                        stockData.getVolume() != null && stockData.getPreviousClose() != null) {
+                    model.addAttribute("stockData", stockData);
+                    return "stockDetails";
+                } else {
+                    // Handle the case where the stockData has missing or null values
+                    return "404";
+                }
             } else {
                 // Handle the case where no data is available for the given stockSymbol
-                model.addAttribute("stockData", new StockData());
+                return "404";
             }
-
-            return "stockDetails";
         } else {
             return "redirect:/login";
         }
