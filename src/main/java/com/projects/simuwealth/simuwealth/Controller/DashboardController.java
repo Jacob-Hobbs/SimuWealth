@@ -64,6 +64,17 @@ public class DashboardController {
         return "redirect:/dashboard";
     }
 
+    @GetMapping("/portfolio")
+    public String getPortfolio(Model model, HttpServletRequest request) {
+
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+
+        model.addAttribute("currentUser", currentUser);
+
+
+        return "portfolio";
+    }
+
 
 
 

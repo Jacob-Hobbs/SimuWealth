@@ -80,7 +80,8 @@ public class StockController {
             @RequestParam String stockSymbol,
             @RequestParam Double currentPrice,
             @RequestParam Integer purchaseQuantity,
-            HttpServletRequest request) {
+            HttpServletRequest request,
+            Model model) {
 
         // Retrieve the currentUser from the session
         User currentUser = (User) request.getSession().getAttribute("currentUser");
@@ -95,6 +96,7 @@ public class StockController {
 
             // Check if currentUser has enough capital for the purchase
             BigDecimal purchaseTotal = new BigDecimal(purchaseAmount).setScale(2, BigDecimal.ROUND_HALF_UP);
+
             if (userCapital.compareTo(purchaseTotal) >= 0) {
                 // Subtract the purchase amount from the currentUser's capital
                 BigDecimal newCapital = userCapital.subtract(purchaseTotal);
@@ -123,8 +125,8 @@ public class StockController {
                 // Redirect to a success page or perform any other necessary actions
                 return "redirect:/dashboard";
             } else {
-                // Handle the case where the user doesn't have enough capital
-                return "redirect:/buyStock";
+                // use case for invalid transaction
+                return "buyStock";
             }
         } else {
             // Handle the case where currentUser is null (user not logged in)

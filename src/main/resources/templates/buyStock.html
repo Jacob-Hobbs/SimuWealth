@@ -150,7 +150,7 @@
                             Strategy
                         </div>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#" style="color: white; padding-top: 20px; padding-left: 35px">
+                            <a class="nav-link active" href="/portfolio" style="color: white; padding-top: 20px; padding-left: 35px">
                                 <i class="fas fa-chart-line"></i>&nbsp Portfolio
                             </a>
                         </li>
@@ -266,10 +266,9 @@
                                         <input type="hidden" name="stockSymbol" th:value="${stockSymbol}" />
                                         <input type="hidden" name="currentPrice" th:value="${currentPrice}" />
 
+
                                         <div class="text-center" style="padding-bottom: 20px">
-                                            <a href="login.html">
-                                                <button type="submit" class="btn btn-success btn-user" id="purchaseButton" onclick="return isButtonEnabled();">Purchase &nbsp;<span th:text="${stockSymbol}"></span></button>
-                                            </a>
+                                                <button type="submit" class="btn btn-success btn-user" id="purchaseButton">Purchase &nbsp;<span th:text="${stockSymbol}"></span></button>
                                         </div>
                                     </form>
                                 </div>
@@ -355,15 +354,7 @@
         }
     }
 </script>
-<script>
-    function isButtonEnabled() {
-        var purchaseButton = document.getElementById("purchaseButton");
-        if (purchaseButton.disabled) {
-            return false;
-        }
-        return true;
-    }
-</script>
+
 
 
 
