@@ -31,6 +31,19 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
     ></script>
 
+    <style>
+        /* Style for the list items */
+        #suggestion-list li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Style for the list items on hover */
+        #suggestion-list li:hover {
+            background-color: #28A745;
+            color: #fff;
+        }
+    </style>
 
 
 
@@ -41,6 +54,29 @@
 
     <a class="navbar-brand" href="#">Your Dashboard</a>
     <!-- Search Bar -->
+    <form action="/stockDetails" method="get">
+        <div class="input-group" style="border: 1px solid #ced4da; border-radius: 0.25rem; width: 400px; transform: translateX(130px)">
+            <div class="form-outline" style="border: none;">
+                <input type="search" name="stockSymbol" id="form1" class="form-control" style="border: none;" oninput="searchStocks(this.value)" />
+                <ul id="suggestion-list" style="position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #08210E;
+    color: #28A745;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 3;">
+                    <!-- Your list items -->
+                </ul>
+                <label class="form-label" for="form1" style="border: none;">Search</label>
+            </div>
+            <button type="submit" class="btn btn-success" style="border: none;">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
 
     <!-- Add navigation links or dropdown menus here -->
     <div class="collapse navbar-collapse" id="navbarNav" style="padding-right: 30px">
@@ -168,7 +204,7 @@
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: #08210E;">
-                            <h6 class="m-0 font-weight-bold text-success">SimuStock Market Search</h6>
+                            <h6 class="m-0 font-weight-bold text-success">Purchase Additional SimuStock</h6>
 
                         </div>
                         <!-- Card Body -->
@@ -177,54 +213,61 @@
                                 <div class="col-md-6 text-center">
                                     <!-- Content for the first column goes here -->
                                     <img class="card-img-left" th:src="@{/images/scale.jpg}" alt="Profile Pic" style="width: 500px; border-radius: 20px">
-
-
-
-
-
                                 </div>
-
-
-
-
-
-
                                 <div class="col-md-6" style="padding-right: 50px">
                                     <!-- Content for the second column goes here -->
 
-                                    <h3 style="color: white; text-align: center; padding-top: 25px">
-                                        Search for a <i class="fas fa-dollar-sign fa-lg" style="color: #28A745;"></i>imuStock below:
+                                    <h3 style="color: white; text-align: center; padding-top: 5px">
+                                        <span th:text="${stockSymbol}" style="color: #28A745"></span> Purchase Form
                                     </h3>
 
-                                    <form class="user" th:action="@{/buyStock}" th:object="${currentUser}" method="post" style="padding-top: 55px">
+                                    <form class="user" th:action="@{/buyStock}" th:object="${currentUser}" method="post" style="padding-top: 15px">
 
-                                        <div class="input-group" style="border: 1px solid #ced4da; border-radius: 0.25rem; width: 400px; transform: translateX(130px)">
-                                            <div class="form-outline" style="border: none;">
-                                                <input type="search" id="form1" class="form-control" style="border: none;" oninput="searchStocks(this.value)" />
-                                                <ul id="suggestion-list" style="position: absolute;
-                                                    top: 100%;
-                                                    left: 0;
-                                                    width: 100%;
-                                                    background-color: #08210E;
-                                                    color: #28A745;
-                                                    border: 1px solid #ccc;
-                                                    max-height: 200px;
-                                                    overflow-y: auto;
-                                                    z-index: 3;">
-                                                    <!-- Your list items -->
-                                                </ul>
-                                                <label class="form-label" for="form1" style="border: none;">Search</label>
+                                        <div class="form-group row" style="padding-bottom: 20px;">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="currentFunds" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-coins"  style="color: #28A745"></i> Available Investment Funds</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">$</span>
+                                                    <input type="number" class="form-control form-control-user" id="currentFunds"
+                                                           placeholder="First Name" th:field="*{capitol}" disabled>
+                                                </div>
                                             </div>
-                                            <button type="button" class="btn btn-success" style="border: none;">
-                                                <i class="fas fa-search"></i>
-                                            </button>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="currentPrice" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-chart-line"  style="color: #28A745"></i>&nbsp;<span th:text="${stockSymbol}"></span> Current Price</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">$</span>
+                                                    <input type="number" class="form-control form-control-user" id="currentPrice"
+                                                           placeholder="Current Price" disabled th:value="${currentPrice}">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row" style="padding-bottom: 20px;">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="purchaseQuantity" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-hashtag"  style="color: #28A745"></i> Purchase Quantity</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">#</span>
+                                                    <input type="number" class="form-control form-control-user" id="purchaseQuantity"
+                                                           placeholder="Enter Purchase Quantity" required step="1" min="0" oninput="calculatePurchaseTotal()">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="purchaseTotal" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-file-invoice-dollar"  style="color: #28A745"></i> Purchase Total</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">$</span>
+                                                    <input type="number" class="form-control form-control-user" id="purchaseTotal"
+                                                           placeholder="0.00" step="0.01" min="0" name="purchaseTotal">
+                                                </div>
+                                                <span id="purchaseTotalError" style="color: red;"></span>
+                                            </div>
+
                                         </div>
 
 
 
                                         <div class="text-center" style="padding-bottom: 20px">
                                             <a href="login.html">
-                                                <button type="submit" class="btn btn-success btn-user" >Update Funds</button>
+                                                <button type="submit" class="btn btn-success btn-user" id="purchaseButton" onclick="return isButtonEnabled();">Purchase &nbsp;<span th:text="${stockSymbol}"></span></button>
                                             </a>
                                         </div>
                                     </form>
@@ -288,7 +331,38 @@
             });
     }
 </script>
+<script>
+    function calculatePurchaseTotal() {
+        // Get the values of purchaseQuantity and currentPrice
+        var purchaseQuantity = parseFloat(document.getElementById("purchaseQuantity").value);
+        var currentPrice = parseFloat(document.getElementById("currentPrice").value);
+        var capital = parseFloat(document.getElementById("currentFunds").value);
 
+        // Calculate the purchase total
+        var purchaseTotal = purchaseQuantity * currentPrice;
+
+        // Set the purchase total in the purchaseTotal input field
+        document.getElementById("purchaseTotal").value = purchaseTotal.toFixed(2); // You can format it to two decimal places
+
+        // Check if purchase total exceeds capital
+        if (purchaseTotal > capital) {
+            document.getElementById("purchaseTotalError").textContent = "Purchase total exceeds available capital";
+            document.getElementById("purchaseButton").setAttribute("disabled", "disabled"); // Disable the button
+        } else {
+            document.getElementById("purchaseTotalError").textContent = ""; // Clear error message
+            document.getElementById("purchaseButton").removeAttribute("disabled");
+        }
+    }
+</script>
+<script>
+    function isButtonEnabled() {
+        var purchaseButton = document.getElementById("purchaseButton");
+        if (purchaseButton.disabled) {
+            return false;
+        }
+        return true;
+    }
+</script>
 
 
 

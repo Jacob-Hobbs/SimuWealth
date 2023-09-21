@@ -12,4 +12,5 @@ public interface UserService {
 
     void updatePasswordByEmail(String email, String newPassword);
 
+    void updateUser(User currentUser);
 }

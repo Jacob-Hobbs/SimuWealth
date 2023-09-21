@@ -31,7 +31,19 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
     ></script>
 
+    <style>
+        /* Style for the list items */
+        #suggestion-list li {
+            padding: 10px;
+            cursor: pointer;
+        }
 
+        /* Style for the list items on hover */
+        #suggestion-list li:hover {
+            background-color: #28A745; /* Change to your desired highlight color */
+            color: #fff; /* Change to your desired text color */
+        }
+    </style>
 
 
 </head>
@@ -259,14 +271,16 @@
 
                                         <div class="text-center" style="padding-bottom: 20px">
                                             <a href="/buyStock">
-                                                <button type="submit" class="btn btn-success btn-user" ><i class="fas fa-cart-shopping"></i>&nbsp; Buy IBM</button>
+                                                <button type="submit" class="btn btn-success btn-user" ><i class="fas fa-cart-shopping"></i>&nbsp; Buy &nbsp;<span th:text="${stockData.symbol}" style="color: white;"></span></button>
                                             </a>
                                         </div>
                                         <div class="text-center" style="padding-bottom: 20px">
-                                            <a href="login.html">
+                                            <a href="/buyStock">
                                                 <button type="submit" class="btn btn-success btn-user" ><i class="fas fa-eye"></i>&nbsp Add to Watchlist</button>
                                             </a>
                                         </div>
+                                        <input type="hidden" name="stockSymbol" th:value="${stockData.symbol}" />
+                                        <input type="hidden" name="currentPrice" th:value="${stockData.price}" />
                                     </form>
                                 </div>
                             </div>

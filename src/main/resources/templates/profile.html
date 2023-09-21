@@ -38,6 +38,19 @@
       transition: transform 0.3s ease;
     }
   </style>
+  <style>
+    /* Style for the list items */
+    #suggestion-list li {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    /* Style for the list items on hover */
+    #suggestion-list li:hover {
+      background-color: #28A745; /* Change to your desired highlight color */
+      color: #fff; /* Change to your desired text color */
+    }
+  </style>
 
 
 </head>
@@ -47,27 +60,29 @@
 
   <a class="navbar-brand" href="#">Your Dashboard</a>
   <!-- Search Bar -->
-  <div class="input-group" style="border: 1px solid #ced4da; border-radius: 0.25rem; width: 400px; transform: translateX(130px)">
-    <div class="form-outline" style="border: none;">
-      <input type="search" id="form1" class="form-control" style="border: none;" oninput="searchStocks(this.value)" />
-      <ul id="suggestion-list" style="position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: #08210E;
-        color: #28A745;
-        border: 1px solid #ccc;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 3;">
-        <!-- Your list items -->
-      </ul>
-      <label class="form-label" for="form1" style="border: none;">Search</label>
+  <form action="/stockDetails" method="get">
+    <div class="input-group" style="border: 1px solid #ced4da; border-radius: 0.25rem; width: 400px; transform: translateX(130px)">
+      <div class="form-outline" style="border: none;">
+        <input type="search" name="stockSymbol" id="form1" class="form-control" style="border: none;" oninput="searchStocks(this.value)" />
+        <ul id="suggestion-list" style="position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #08210E;
+    color: #28A745;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 3;">
+          <!-- Your list items -->
+        </ul>
+        <label class="form-label" for="form1" style="border: none;">Search</label>
+      </div>
+      <button type="submit" class="btn btn-success" style="border: none;">
+        <i class="fas fa-search"></i>
+      </button>
     </div>
-    <button type="button" class="btn btn-success" style="border: none;">
-      <i class="fas fa-search"></i>
-    </button>
-  </div>
+  </form>
   <!-- Add navigation links or dropdown menus here -->
   <div class="collapse navbar-collapse" id="navbarNav" style="padding-right: 30px">
     <ul class="navbar-nav ml-auto">
@@ -382,6 +397,7 @@
             });
   }
 </script>
+
 
 </body>
 </html>

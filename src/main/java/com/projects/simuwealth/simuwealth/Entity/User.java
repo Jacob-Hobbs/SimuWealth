@@ -6,11 +6,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name= "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-
 public class User {
 
     @Id
@@ -42,11 +43,16 @@ public class User {
     @Column(name = "capitol")
     private double capitol;
 
+    @ElementCollection
+    @CollectionTable(name = "user_stocks", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "stock_id")
+    private List<Integer> stockList = new ArrayList<>();
+
     public User() {
         // blank constructor as required by JPA/Hibernate
     }
 
-    public User(int userId, String email, String password, String firstName, String lastName, String profilePicture, double capitol) {
+    public User(int userId, String email, String password, String firstName, String lastName, String profilePicture, double capitol, List<Integer> stockList) {
         this.userId = userId;
         this.email = email;
         this.password = password;
@@ -54,6 +60,7 @@ public class User {
         this.lastName = lastName;
         this.profilePicture = profilePicture;
         this.capitol = capitol;
+        this.stockList = stockList;
     }
 
     public int getUserId() {
@@ -112,6 +119,14 @@ public class User {
         this.capitol = capitol;
     }
 
+    public List<Integer> getStockList() {
+        return stockList;
+    }
+
+    public void setStockList(List<Integer> stockList) {
+        this.stockList = stockList;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -122,6 +137,9 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +
                 ", capitol=" + capitol +
+                ", stockList=" + stockList +
                 '}';
     }
+
+
 }
