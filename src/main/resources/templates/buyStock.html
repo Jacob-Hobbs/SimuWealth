@@ -248,7 +248,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-text" style="color: #28A745">#</span>
                                                     <input type="number" class="form-control form-control-user" id="purchaseQuantity"
-                                                           placeholder="Enter Purchase Quantity" required step="1" min="0" oninput="calculatePurchaseTotal()">
+                                                           placeholder="Enter Purchase Quantity" required step="1" min="0" oninput="calculatePurchaseTotal()" name="purchaseQuantity">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
@@ -263,7 +263,8 @@
 
                                         </div>
 
-
+                                        <input type="hidden" name="stockSymbol" th:value="${stockSymbol}" />
+                                        <input type="hidden" name="currentPrice" th:value="${currentPrice}" />
 
                                         <div class="text-center" style="padding-bottom: 20px">
                                             <a href="login.html">

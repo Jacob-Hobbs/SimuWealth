@@ -1,5 +1,6 @@
 package com.projects.simuwealth.simuwealth.Controller;
 
+import com.projects.simuwealth.simuwealth.Entity.Stock;
 import com.projects.simuwealth.simuwealth.Entity.User;
 import com.projects.simuwealth.simuwealth.Service.ApiService.StockData;
 import com.projects.simuwealth.simuwealth.Service.StockService;
@@ -75,14 +76,17 @@ public class StockController {
     }
 
     @PostMapping("/buyStock")
-    public String purchaseStock(@RequestParam String purchaseTotal, HttpServletRequest request) {
+    public String purchaseStock(
+            @RequestParam String stockSymbol,
+            @RequestParam Double currentPrice,
+            @RequestParam Integer purchaseQuantity,
+            HttpServletRequest request) {
+
         // Retrieve the currentUser from the session
         User currentUser = (User) request.getSession().getAttribute("currentUser");
 
-        // Parse the purchaseTotal string to a BigDecimal with two decimal places
-        BigDecimal purchaseAmount = new BigDecimal(purchaseTotal).setScale(2, BigDecimal.ROUND_HALF_UP);
-
-        System.out.println("PURCHASE AMOUNT: " + purchaseAmount);
+        // Calculate the purchase amount
+        double purchaseAmount = currentPrice * purchaseQuantity;
 
         // Check if currentUser is not null
         if (currentUser != null) {
@@ -90,14 +94,30 @@ public class StockController {
             BigDecimal userCapital = new BigDecimal(currentUser.getCapitol()).setScale(2, BigDecimal.ROUND_HALF_UP);
 
             // Check if currentUser has enough capital for the purchase
-            if (userCapital.compareTo(purchaseAmount) >= 0) {
+            BigDecimal purchaseTotal = new BigDecimal(purchaseAmount).setScale(2, BigDecimal.ROUND_HALF_UP);
+            if (userCapital.compareTo(purchaseTotal) >= 0) {
                 // Subtract the purchase amount from the currentUser's capital
-                BigDecimal newCapital = userCapital.subtract(purchaseAmount);
+                BigDecimal newCapital = userCapital.subtract(purchaseTotal);
 
                 // Update the currentUser's capital in the database
-                currentUser.setCapitol(newCapital.doubleValue()); // Convert back to double for database storage
+                currentUser.setCapitol(newCapital.doubleValue());
 
-                // Update the currentUser in the database (use your service/repository layer)
+                System.out.println("Purchase Quantity: " + purchaseQuantity);
+                System.out.println("Current User: " + currentUser);
+                System.out.println("Symbol: " + stockSymbol);
+                System.out.println("Current Price: " + currentPrice);
+
+                // Add the purchased stock to the user's stockList
+                for (int i = 0; i < purchaseQuantity; i++) {
+                    Stock purchasedStock = new Stock();
+                    purchasedStock.setUser(currentUser);
+                    purchasedStock.setSymbol(stockSymbol);
+                    purchasedStock.setPurchasePrice(currentPrice);
+                    // Save the purchased stock to the database
+                    stockService.saveStock(purchasedStock);
+                }
+
+                // Update the currentUser in the database
                 userService.updateUser(currentUser);
 
                 // Redirect to a success page or perform any other necessary actions
