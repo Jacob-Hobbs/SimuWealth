@@ -204,107 +204,19 @@
             <!-- Add content like charts, tables, etc. -->
 
 
-            <div class="row">
-
-                <!-- Area Chart -->
-                <div class="col-xl-8 col-lg-7" >
-                    <div class="card shadow mb-4" >
-                        <!-- Card Header - Dropdown -->
-                        <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body" >
-                            <div class="chart-area">
-                                <canvas id="myAreaChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pie Chart -->
-                <div class="col-xl-4 col-lg-5">
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Dropdown -->
-                        <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-pie pt-4 pb-2">
-                                <canvas id="myPieChart"></canvas>
-                            </div>
-                            <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
             <div class="row">
                 <!-- Area Chart 1 -->
-                <div class="col-xl-6 col-lg-6">
-                    <div class="card shadow mb-4">
+                <div class="col-xl-5 col-lg-6">
+                    <div class="card shadow mb-4" style="background-color: #08210E">
                         <!-- Card Header - Dropdown -->
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink1">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
+                            <h6 class="m-0 font-weight-bold" style="color: #28A745">Investing</h6>
+
                         </div>
                         <!-- Card Body -->
-                        <div class="card-body">
+                        <div class="card-body" style="height: 430px;">
                             <div class="chart-area">
                                 <canvas id="myAreaChart1"></canvas>
                             </div>
@@ -313,35 +225,48 @@
                 </div>
 
                 <!-- Area Chart 2 -->
-                <div class="col-xl-6 col-lg-6">
-                    <div class="card shadow mb-4">
+                <div class="col-xl-7 col-lg-6">
+                    <div class="card shadow mb-4" style="background-color: #08210E;">
                         <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                        <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold" style="color: #28A745">Diversity</h6>
                             <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink2">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
                             </div>
                         </div>
                         <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-area">
-                                <canvas id="myAreaChart2"></canvas>
+                        <div class="card-body mx-auto" style="height: 430px; transform: translateY(-30px)">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="chart-pie pt-4 pb-2 text-center" style="width: 350px; transform: translateX(-30px)">
+                                        <label for="myPieChart" style="color: #28A745">Based on Shares</label>
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="chart-pie pt-4 pb-2 text-center" style="width: 350px;  transform: translateX(30px)">
+                                        <label for="myPieChart2" style="color: #28A745">Based on Cost</label>
+                                        <canvas id="myPieChart2"></canvas>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <!-- Area Chart 1 -->
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card shadow mb-4" style="background-color: #08210E">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold" style="color: #28A745">Stocks</h6>
+
+
+                    </div>
+                </div>
+
+            </div></div>
 
 
         </main>
@@ -393,7 +318,83 @@
     }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+    // Define function to initialize the pie chart
+    function initializePieChart(stockTypePercentages) {
+        var ctx = document.getElementById('myPieChart').getContext('2d');
+
+        var data = {
+            labels: Object.keys(stockTypePercentages),
+            datasets: [{
+                data: Object.values(stockTypePercentages),
+                backgroundColor: [
+                    'rgb(40,167,69)',
+                    'rgb(18,75,34)',
+                    'rgb(11,44,18)',
+                    'rgb(76,162,94)',
+                    'rgb(79,119,102)',
+                    'rgb(25,110,41)',
+                ]
+            }]
+        };
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: data,
+        });
+    }
+
+    // Fetch the data asynchronously from the new JSON endpoint
+    fetch('/data') // Change this URL to the new endpoint
+        .then(response => response.json())
+        .then(data => {
+            // Call the function to initialize the pie chart with the fetched data
+            initializePieChart(data);
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+        });
+</script>
+
+<script>
+    // Define function to initialize the second pie chart based on money spent
+    function initializeMoneyPieChart(moneySpentData) {
+        var ctx = document.getElementById('myPieChart2').getContext('2d');
+
+        var data = {
+            labels: Object.keys(moneySpentData),
+            datasets: [{
+                data: Object.values(moneySpentData),
+                backgroundColor: [
+                    'rgb(40,167,69)',
+                    'rgb(18,75,34)',
+                    'rgb(11,44,18)',
+                    'rgb(76,162,94)',
+                    'rgb(79,119,102)',
+                    'rgb(25,110,41)',
+                ]
+            }]
+        };
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: data,
+        });
+    }
+
+    // Fetch the data for the second pie chart asynchronously from a new JSON endpoint
+    fetch('/money-data') // Change this URL to the new endpoint
+        .then(response => response.json())
+        .then(data => {
+            // Call the function to initialize the second pie chart with the fetched data
+            initializeMoneyPieChart(data);
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+        });
+</script>
 
 
 
