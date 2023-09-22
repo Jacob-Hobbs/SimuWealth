@@ -80,7 +80,7 @@ public class LoginController {
         Stock stock1 = new Stock();
         stock1.setUser(testAdmin);
         stock1.setSymbol("F");
-        stock1.setPurchasePrice(12.52);
+        stock1.setPurchasePrice(12.50);
         stockRepository.save(stock1);
 
         Stock stock2 = new Stock();
@@ -98,19 +98,19 @@ public class LoginController {
         Stock stock4 = new Stock();
         stock4.setUser(testAdmin);
         stock4.setSymbol("KOS");
-        stock4.setPurchasePrice(7.12);
+        stock4.setPurchasePrice(7.35);
         stockRepository.save(stock4);
 
         Stock stock5 = new Stock();
         stock5.setUser(testAdmin);
         stock5.setSymbol("KOS");
-        stock5.setPurchasePrice(7.12);
+        stock5.setPurchasePrice(6.98);
         stockRepository.save(stock5);
 
         Stock stock11 = new Stock();
         stock11.setUser(testAdmin);
         stock11.setSymbol("MA");
-        stock11.setPurchasePrice(407.44);
+        stock11.setPurchasePrice(405.44);
         stockRepository.save(stock11);
 
         Stock stock12 = new Stock();
@@ -118,18 +118,6 @@ public class LoginController {
         stock12.setSymbol("MA");
         stock12.setPurchasePrice(407.44);
         stockRepository.save(stock12);
-
-        Stock stock13 = new Stock();
-        stock13.setUser(testAdmin);
-        stock13.setSymbol("MA");
-        stock13.setPurchasePrice(407.44);
-        stockRepository.save(stock13);
-
-        Stock stock14 = new Stock();
-        stock14.setUser(testAdmin);
-        stock14.setSymbol("MA");
-        stock14.setPurchasePrice(407.44);
-        stockRepository.save(stock14);
 
         // Default Admin Stock:
         Stock stock6 = new Stock();

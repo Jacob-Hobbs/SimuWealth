@@ -224,7 +224,10 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="investmentInfo">
-                                        <h1 th:id="portfolioValue" style="font-size: 38px; padding-top: 25px; text-align: center; color: #28A745" th:text="${portfolioValue}" name="portfolioValue"></h1>
+                                        <h1 th:id="portfolioValue" style="font-size: 38px; padding-top: 25px; text-align: center;"
+                                            th:text="${portfolioValue}"
+                                            th:classappend="${totalReturn < 0 ? 'text-danger' : 'text-success'}">
+                                        </h1>
                                         <form class="user" th:action="@{/registerUser}" th:object="${currentUser}" method="post" style="padding-top: 40px">
 
                                             <div style="padding-bottom: 25px">
@@ -293,10 +296,117 @@
                             <h6 class="m-0 font-weight-bold" style="color: #28A745">Stocks</h6>
 
 
+                        </div>
                     </div>
-                </div>
 
-            </div></div>
+                </div>
+            </div>
+
+
+            <!-- STOCK CARDS -->
+            <div class="row">
+                <!-- Loop through each unique stock symbol -->
+                <th:block th:each="symbol : ${stockSymbols}">
+                    <div class="col-xl-3 col-lg-3">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header" style="background-color: #08210E;">
+                                <h3 class="m-0 font-weight-bold text-center"
+                                    th:text="${symbol + ' : $' + currentPrice.get(symbol)}"
+                                    th:classappend="${dollarReturn.get(symbol) < 0 ? 'text-danger' : 'text-success'}">
+                                </h3>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body" style="background-color: #08210E; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 380px">
+                                <div class="row">
+
+                                    <h5 style="color: white;">Your Position</h5>
+
+                                    <div class="form-group row" style="padding-bottom: 20px">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <label for="shares" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-chart-pie"  style="color: #28A745"></i>&nbsp;Shares</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text" style="color: #28A745; width: 35px">#</span>
+                                                <input type="number" class="form-control form-control-user" id="shares"
+                                                       placeholder="Shares" disabled th:value="${stockQuantities.get(symbol)}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="marketValue" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-landmark"  style="color: #28A745"></i>&nbsp;Market Value</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text" style="color: #28A745; width: 35px">$</span>
+                                                <input type="number" class="form-control form-control-user" id="marketValue"
+                                                       placeholder="Market Value" disabled th:value="${stockMarketValues.get(symbol)}">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" style="padding-bottom: 20px">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <label for="averageCost" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-scale-unbalanced"  style="color: #28A745"></i>&nbsp;Avg. Cost</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text" style="color: #28A745; width: 35px">$</span>
+                                                <input type="number" class="form-control form-control-user" id="averageCost"
+                                                       placeholder="Average Cost" disabled th:value="${shareAverageCost.get(symbol)}">
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="dollarReturn" style="justify-self: left; padding-bottom: 7px; color: white">
+                                                        <i class="fas fa-piggy-bank" style="color: #28A745"></i>&nbsp;Return
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="color: #28A745; width: 35px">$</span>
+                                                        <input type="number" th:value="${dollarReturn.get(symbol)}" class="form-control form-control-user" id="dollarReturn" placeholder="$ Return" disabled>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" style="color: #28A745; width: 35px">%</span>
+                                                        <input type="number" th:value="${percentReturnMap.get(symbol)}" class="form-control form-control-user" id="percentReturn" placeholder="% Return" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <form class="user" method="post">
+                                        <div class="form-group row">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="text-center" style="padding-bottom: 20px; padding-right: 30px">
+                                                    <a th:href="@{/buyStock}">
+                                                        <button type="submit" class="btn btn-success btn-user">Buy ${symbol}</button>
+                                                    </a>
+                                                </div>
+                                                <div class="text-center" style="padding-bottom: 20px">
+                                                    <a href="/sellStock">
+                                                        <button type="submit" class="btn btn-success btn-user">Sell ${symbol}</button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+
+
+
+
+
+
 
 
         </main>

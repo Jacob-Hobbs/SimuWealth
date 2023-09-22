@@ -102,6 +102,11 @@ public class DashboardController {
 
         // Create a map to store the quantity of each stock symbol
         Map<String, Integer> stockQuantities = new HashMap<>();
+        Map<String, Double> stockMarketValues = new HashMap<>();
+        Map<String, Double> shareAverageCost = new HashMap<>();
+        Map<String, Double> dollarReturn = new HashMap<>();
+        Map<String, Double> currentPrice = new HashMap<>();
+        Map<String, Double> percentReturnMap = new HashMap<>();
 
         // Calculate the total value of the user's stock holdings
         double totalStockValue = 0.0;
@@ -109,6 +114,7 @@ public class DashboardController {
 
         // List that contains a unique stock symbols.
         List<String> stockSymbols = new ArrayList<>();
+
 
         for (Stock stock: userStocks) {
             // Increment the quantity for this stock symbol
@@ -119,16 +125,78 @@ public class DashboardController {
         }
 
         for (String symbol: stockSymbols) {
+
             double realTimePrice = stockService.getRealTimeStockPrice(symbol);
-            totalStockValue += stockQuantities.get(symbol) * realTimePrice;
+            double roundedRealtimePrice = Math.round(realTimePrice * 100.0) / 100.0;
+            currentPrice.put(symbol, roundedRealtimePrice);
+
+
+
+            totalStockValue = stockQuantities.get(symbol) * realTimePrice;
+
+            double roundedTotalStockValue = Math.round(totalStockValue * 100.0) / 100.0;
+            stockMarketValues.put(symbol, roundedTotalStockValue);
+
 
         }
 
-        // Calculate the overall portfolio value
-        double portfolioValue = currentCapital + totalStockValue;
+
+        for (String symbol: stockSymbols) {
+
+            int count = 0;
+            double totalPurchaseAmount = 0.0;
+
+            for (Stock stock: userStocks) {
+                if (symbol.equals(stock.getSymbol())) {
+                    totalPurchaseAmount += stock.getPurchasePrice();
+                    count += 1;
+                }
+
+            }
+            double avgPrice = totalPurchaseAmount / count;
+            double roundedAveragePrice = Math.round(avgPrice * 100.0) / 100.0;
+            shareAverageCost.put(symbol, roundedAveragePrice);
+
+            double monetaryReturn = stockMarketValues.get(symbol) - totalPurchaseAmount;
+
+            double roundedMonetaryReturn = Math.round(monetaryReturn * 100.0) / 100.0;
+            dollarReturn.put(symbol, roundedMonetaryReturn);
+
+            double percentReturnAmount = ((stockMarketValues.get(symbol) - totalPurchaseAmount) / totalPurchaseAmount) * 100;
+            System.out.println("STOCK MARKET VALUE: " + symbol + ": " + stockMarketValues.get(symbol));
+            System.out.println("TOTAL PURCHASE AMOUNT: " + symbol + ": " + totalPurchaseAmount);
+            double roundedPercentReturnAmount = Math.round(percentReturnAmount * 100.0) / 100.0;
+            percentReturnMap.put(symbol, roundedPercentReturnAmount);
+
+        }
+
+
+
+
+
+        Double totalCapital = currentCapital;
+
+        for (String symbol: stockSymbols) {
+            totalCapital += stockMarketValues.get(symbol);
+
+        }
+
+        double roundedTotalCapital = Math.round(totalCapital * 100.0) / 100.0;
 
         // Add the portfolio value to the model
-        model.addAttribute("portfolioValue", portfolioValue);
+        model.addAttribute("portfolioValue", roundedTotalCapital);
+
+
+
+
+
+
+
+
+
+
+
+
 
         double stockTotalCost = 0.0;
         for (Stock stock: userStocks) {
@@ -137,19 +205,24 @@ public class DashboardController {
         }
 
         double baseInvestment = currentCapital + stockTotalCost;
-        System.out.println("Base Investment: " + baseInvestment);
-        System.out.println("Portfolio Value: " + portfolioValue);
 
-        double totalReturn = portfolioValue - baseInvestment;
+
+        double totalReturn = roundedTotalCapital - baseInvestment;
         double roundedTotalReturn = Math.round(totalReturn * 100.0) / 100.0;
         double percentReturn = (totalReturn / baseInvestment) * 100;
         double roundedPercentReturn = Math.round(percentReturn * 100.0) / 100.0;
 
-        System.out.println("Total Return: " + totalReturn);
-        System.out.println("Percent Return: " + percentReturn);
+
 
         model.addAttribute("totalReturn", roundedTotalReturn);
         model.addAttribute("percentReturn", roundedPercentReturn);
+        model.addAttribute("stockSymbols", stockSymbols);
+        model.addAttribute("stockQuantities", stockQuantities);
+        model.addAttribute("stockMarketValues", stockMarketValues);
+        model.addAttribute("shareAverageCost", shareAverageCost);
+        model.addAttribute("dollarReturn", dollarReturn);
+        model.addAttribute("currentPrice", currentPrice);
+        model.addAttribute("percentReturnMap", percentReturnMap);
 
         return "portfolio";
     }
