@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,14 +75,124 @@ public class DashboardController {
         return "redirect:/dashboard";
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @GetMapping("/portfolio")
     public String getPortfolio(Model model, HttpServletRequest request) {
         User currentUser = (User) request.getSession().getAttribute("currentUser");
         model.addAttribute("currentUser", currentUser);
 
+        // Retrieve the user's current capital from your data source
+        double currentCapital = currentUser.getCapitol();
+
+        // Retrieve the list of stocks the user holds
+        List<Stock> userStocks = stockService.getStocksByUser(currentUser);
+
+        // Create a map to store the quantity of each stock symbol
+        Map<String, Integer> stockQuantities = new HashMap<>();
+
+        // Calculate the total value of the user's stock holdings
+        double totalStockValue = 0.0;
+
+
+        // List that contains a unique stock symbols.
+        List<String> stockSymbols = new ArrayList<>();
+
+        for (Stock stock: userStocks) {
+            // Increment the quantity for this stock symbol
+            stockQuantities.put(stock.getSymbol(), stockQuantities.getOrDefault(stock.getSymbol(), 0) + 1);
+            if (!stockSymbols.contains(stock.getSymbol())) {
+                stockSymbols.add(stock.getSymbol());
+            }
+        }
+
+        for (String symbol: stockSymbols) {
+            double realTimePrice = stockService.getRealTimeStockPrice(symbol);
+            totalStockValue += stockQuantities.get(symbol) * realTimePrice;
+
+        }
+
+        // Calculate the overall portfolio value
+        double portfolioValue = currentCapital + totalStockValue;
+
+        // Add the portfolio value to the model
+        model.addAttribute("portfolioValue", portfolioValue);
+
+        double stockTotalCost = 0.0;
+        for (Stock stock: userStocks) {
+            double purchasePrice = stock.getPurchasePrice();
+            stockTotalCost += purchasePrice;
+        }
+
+        double baseInvestment = currentCapital + stockTotalCost;
+        System.out.println("Base Investment: " + baseInvestment);
+        System.out.println("Portfolio Value: " + portfolioValue);
+
+        double totalReturn = portfolioValue - baseInvestment;
+        double roundedTotalReturn = Math.round(totalReturn * 100.0) / 100.0;
+        double percentReturn = (totalReturn / baseInvestment) * 100;
+        double roundedPercentReturn = Math.round(percentReturn * 100.0) / 100.0;
+
+        System.out.println("Total Return: " + totalReturn);
+        System.out.println("Percent Return: " + percentReturn);
+
+        model.addAttribute("totalReturn", roundedTotalReturn);
+        model.addAttribute("percentReturn", roundedPercentReturn);
 
         return "portfolio";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/data")
     public ResponseEntity<Map<String, Double>> getPortfolioData(HttpServletRequest request) {
@@ -142,6 +253,11 @@ public class DashboardController {
 
         return ResponseEntity.ok(moneySpentData);
     }
+
+
+
+
+
 
 
 

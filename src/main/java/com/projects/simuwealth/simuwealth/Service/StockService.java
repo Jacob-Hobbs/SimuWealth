@@ -125,4 +125,12 @@ public class StockService {
     public List<Stock> getStocksByUser(User currentUser) {
         return stockRepository.findByUser(currentUser);
     }
+
+    public double getRealTimeStockPrice(String symbol) {
+
+        StockData stockData = getGlobalQuote(symbol);
+        return Double.valueOf(stockData.getPrice());
+    }
+
+
 }

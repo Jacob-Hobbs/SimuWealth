@@ -210,16 +210,46 @@
                 <!-- Area Chart 1 -->
                 <div class="col-xl-5 col-lg-6">
                     <div class="card shadow mb-4" style="background-color: #08210E">
-                        <!-- Card Header - Dropdown -->
+                        <!-- Card Header -->
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold" style="color: #28A745">Investing</h6>
 
                         </div>
                         <!-- Card Body -->
                         <div class="card-body" style="height: 430px;">
-                            <div class="chart-area">
-                                <canvas id="myAreaChart1"></canvas>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img class="card-img-left" th:src="@{/images/marketGraph.png}" alt="Profile Pic" style="width: 285px; border-radius: 20px; height: 375px">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="investmentInfo">
+                                        <h1 th:id="portfolioValue" style="font-size: 38px; padding-top: 25px; text-align: center; color: #28A745" th:text="${portfolioValue}" name="portfolioValue"></h1>
+                                        <form class="user" th:action="@{/registerUser}" th:object="${currentUser}" method="post" style="padding-top: 40px">
+
+                                            <div style="padding-bottom: 25px">
+                                                <label th:for="totalReturn" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-file-invoice-dollar" style="color: #28A745"></i>&nbsp;Total Return</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">$</span>
+                                                    <input type="number" class="form-control form-control-user"
+                                                           th:id="totalReturn" name="totalReturn" placeholder="Total Return" th:value="${totalReturn}" disabled>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label th:for="percentReturn" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-percent" style="color: #28A745"></i>&nbsp;Percent Return</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">%</span>
+                                                    <input type="number" class="form-control form-control-user"
+                                                           th:id="percentReturn" name="percentReturn" th:value="${percentReturn}" placeholder="Percent Return" disabled>
+                                                </div>
+                                            </div>
+
+
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -396,7 +426,22 @@
         });
 </script>
 
+<script>
+    // Format the stockData.price value with two decimal places
+    const formatPrice = () => {
+        const priceSpan = document.getElementById("portfolioValue");
+        if (priceSpan) {
+            const originalValue = parseFloat(priceSpan.textContent);
+            if (!isNaN(originalValue)) {
+                const formattedValue = "$" + originalValue.toFixed(2);
+                priceSpan.textContent = formattedValue;
+            }
+        }
+    };
 
+    // Call the formatPrice function when the page loads
+    window.addEventListener("load", formatPrice);
+</script>
 
 
 

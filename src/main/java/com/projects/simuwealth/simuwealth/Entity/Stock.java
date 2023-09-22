@@ -72,4 +72,5 @@ public class Stock {
                 ", purchasePrice=" + purchasePrice +
                 '}';
     }
+
 }
