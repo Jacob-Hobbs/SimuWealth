@@ -3,6 +3,7 @@ package com.projects.simuwealth.simuwealth.Controller;
 import com.projects.simuwealth.simuwealth.Entity.Stock;
 import com.projects.simuwealth.simuwealth.Entity.User;
 import com.projects.simuwealth.simuwealth.Repository.UserRepository;
+import com.projects.simuwealth.simuwealth.Service.ApiService.StockData;
 import com.projects.simuwealth.simuwealth.Service.StockService;
 import com.projects.simuwealth.simuwealth.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -75,20 +76,6 @@ public class DashboardController {
         return "redirect:/dashboard";
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/portfolio")
     public String getPortfolio(Model model, HttpServletRequest request) {
         User currentUser = (User) request.getSession().getAttribute("currentUser");
@@ -107,14 +94,13 @@ public class DashboardController {
         Map<String, Double> dollarReturn = new HashMap<>();
         Map<String, Double> currentPrice = new HashMap<>();
         Map<String, Double> percentReturnMap = new HashMap<>();
+        Map<String, StockData> stockData = new HashMap<>();
 
         // Calculate the total value of the user's stock holdings
         double totalStockValue = 0.0;
 
-
         // List that contains a unique stock symbols.
         List<String> stockSymbols = new ArrayList<>();
-
 
         for (Stock stock: userStocks) {
             // Increment the quantity for this stock symbol
@@ -139,7 +125,6 @@ public class DashboardController {
 
 
         }
-
 
         for (String symbol: stockSymbols) {
 
@@ -170,14 +155,12 @@ public class DashboardController {
 
         }
 
-
-
-
-
         Double totalCapital = currentCapital;
 
         for (String symbol: stockSymbols) {
             totalCapital += stockMarketValues.get(symbol);
+
+            stockData.put(symbol, stockService.getGlobalQuote(symbol));
 
         }
 
@@ -186,18 +169,6 @@ public class DashboardController {
         // Add the portfolio value to the model
         model.addAttribute("portfolioValue", roundedTotalCapital);
 
-
-
-
-
-
-
-
-
-
-
-
-
         double stockTotalCost = 0.0;
         for (Stock stock: userStocks) {
             double purchasePrice = stock.getPurchasePrice();
@@ -205,14 +176,10 @@ public class DashboardController {
         }
 
         double baseInvestment = currentCapital + stockTotalCost;
-
-
         double totalReturn = roundedTotalCapital - baseInvestment;
         double roundedTotalReturn = Math.round(totalReturn * 100.0) / 100.0;
         double percentReturn = (totalReturn / baseInvestment) * 100;
         double roundedPercentReturn = Math.round(percentReturn * 100.0) / 100.0;
-
-
 
         model.addAttribute("totalReturn", roundedTotalReturn);
         model.addAttribute("percentReturn", roundedPercentReturn);
@@ -223,49 +190,10 @@ public class DashboardController {
         model.addAttribute("dollarReturn", dollarReturn);
         model.addAttribute("currentPrice", currentPrice);
         model.addAttribute("percentReturnMap", percentReturnMap);
+        model.addAttribute("stockData", stockData);
 
         return "portfolio";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @GetMapping("/data")
     public ResponseEntity<Map<String, Double>> getPortfolioData(HttpServletRequest request) {
@@ -326,21 +254,5 @@ public class DashboardController {
 
         return ResponseEntity.ok(moneySpentData);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
