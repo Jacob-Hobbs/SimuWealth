@@ -1,8 +1,11 @@
 package com.projects.simuwealth.simuwealth.Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projects.simuwealth.simuwealth.Entity.Stock;
 import com.projects.simuwealth.simuwealth.Entity.User;
 import com.projects.simuwealth.simuwealth.Service.ApiService.StockData;
+import com.projects.simuwealth.simuwealth.Service.ApiService.TimeSeriesData;
 import com.projects.simuwealth.simuwealth.Service.StockService;
 import com.projects.simuwealth.simuwealth.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -22,6 +29,9 @@ public class StockController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @GetMapping("/{symbol}/price")
     public Double getStockPrice(@PathVariable String symbol) {
@@ -76,7 +86,7 @@ public class StockController {
     }
 
     @GetMapping("/sellStock")
-    public String sellStockPage(Model model, @RequestParam String stockSymbol, HttpServletRequest request) {
+    public String sellStockPage(Model model, @RequestParam String stockSymbol, @RequestParam double shares, HttpServletRequest request) {
 
         User currentUser = (User) request.getSession().getAttribute("currentUser");
 
@@ -90,7 +100,9 @@ public class StockController {
                 // Check if the stockData contains valid data
                 if (stockData.getOpen() != null && stockData.getHigh() != null && stockData.getLow() != null &&
                         stockData.getVolume() != null && stockData.getPreviousClose() != null) {
+                    System.out.println("NUMBER OF SHARES: " + shares);
                     model.addAttribute("stockData", stockData);
+                    model.addAttribute("shares", shares);
                     return "sellStock";
                 } else {
                     // Handle the case where the stockData has missing or null values
@@ -104,6 +116,115 @@ public class StockController {
             return "redirect:/login";
         }
     }
+
+
+    @PostMapping("/sellStock")
+    public String sellStock(
+            @RequestParam String stockSymbol,
+            @RequestParam Double currentPrice,
+            @RequestParam Integer purchaseQuantity,
+            HttpServletRequest request,
+            Model model) {
+
+        // Retrieve the currentUser from the session
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+
+        // Check if currentUser is not null
+        if (currentUser != null) {
+            // Get the user's stock list
+            List<Stock> stockList = stockService.getStocksByUser(currentUser);
+
+            // Calculate the purchase amount
+            double saleAmount = currentPrice * purchaseQuantity;
+
+            // Check if currentUser has enough shares to sell
+            long sharesOwned = stockList.stream()
+                    .filter(stock -> stock.getSymbol().equals(stockSymbol))
+                    .count();
+
+            if (sharesOwned >= purchaseQuantity) {
+                // Convert user's capital to BigDecimal for precision
+                BigDecimal userCapital = new BigDecimal(currentUser.getCapitol()).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                // Subtract the purchase amount from the currentUser's capital
+                BigDecimal newCapital = userCapital.add(new BigDecimal(saleAmount)).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                // Update the currentUser's capital in the database
+                currentUser.setCapitol(newCapital.doubleValue());
+
+                // Remove the sold shares from the database
+                List<Stock> soldStocks = stockList.stream()
+                        .filter(stock -> stock.getSymbol().equals(stockSymbol))
+                        .limit(purchaseQuantity) // Limit to the number of shares being sold
+                        .collect(Collectors.toList());
+
+                for (Stock soldStock : soldStocks) {
+                    stockService.deleteStock(soldStock); // Add this method in StockService
+                }
+
+                // Redirect to a success page or perform any other necessary actions
+                return "redirect:/dashboard";
+            } else {
+                // Handle the case where currentUser does not have enough shares to sell
+                model.addAttribute("error", "Not enough shares to sell");
+                return "404"; // You can define an error page for this case
+            }
+        } else {
+            // Handle the case where currentUser is null (user not logged in)
+            return "redirect:/login";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -201,8 +322,7 @@ public class StockController {
 
 
     @GetMapping("/stockDetails")
-    public String stockDetailsPage(Model model, @RequestParam String stockSymbol, HttpServletRequest request) {
-
+    public String stockDetailsPage(Model model, @RequestParam String stockSymbol, HttpServletRequest request) throws JsonProcessingException {
         User currentUser = (User) request.getSession().getAttribute("currentUser");
 
         if (currentUser != null) {
@@ -216,6 +336,50 @@ public class StockController {
                 if (stockData.getOpen() != null && stockData.getHigh() != null && stockData.getLow() != null &&
                         stockData.getVolume() != null && stockData.getPreviousClose() != null) {
                     model.addAttribute("stockData", stockData);
+
+                    List<Double> reverseClosePrices = null;
+                    List<Integer> minutes = null;
+                    try {
+                        // Fetch and include the time series data in the model
+                        Map<String, TimeSeriesData> timeSeriesData = stockService.getTimeSeriesData(stockSymbol);
+
+                        List<Double> closePrices = new ArrayList<>();
+                        reverseClosePrices = new ArrayList<>();
+                        List<String> timeIntervals = new ArrayList<>();
+                        minutes = new ArrayList<>();
+
+                        for (String timestamp : timeSeriesData.keySet()) {
+                            TimeSeriesData dataPoint = timeSeriesData.get(timestamp);
+                            if (dataPoint != null) {
+                                closePrices.add(dataPoint.getClose());
+                                timeIntervals.add(timestamp);
+                            }
+                        }
+                        minutes.add(0);
+                        for (int i = 1; i < 100; i++) {
+                            minutes.add(i * 5);
+                        }
+
+                        for (int i = 99; i >= 0; i--) {
+                            double num = closePrices.get(i);
+                            reverseClosePrices.add(num);
+                        }
+
+
+                        System.out.println("Close Prices: ");
+                        for (Double closePrice : closePrices) {
+                            System.out.println(closePrice);
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+
+
+                    // Add these lists as attributes to your model
+                    model.addAttribute("closePrices", reverseClosePrices);
+
+                    model.addAttribute("minutesList", minutes);
+
                     return "stockDetails";
                 } else {
                     // Handle the case where the stockData has missing or null values
@@ -247,7 +411,7 @@ public class StockController {
     }
 
     @PostMapping("/portfolioSell")
-    public String sellStockPageFromPortfolio(Model model, @RequestParam String stockSymbol, @RequestParam Double currentPrice, HttpServletRequest request) {
+    public String sellStockPageFromPortfolio(Model model, @RequestParam String stockSymbol, @RequestParam Double currentPrice, @RequestParam Double shares, HttpServletRequest request) {
         // Retrieve the currentUser and other data as needed
         User currentUser = (User) request.getSession().getAttribute("currentUser");
         request.getSession().setAttribute("currentUser", currentUser);
@@ -256,6 +420,7 @@ public class StockController {
         // Populate the model with data for the /buyStock page
         model.addAttribute("stockSymbol", stockSymbol);
         model.addAttribute("currentPrice", currentPrice);
+        model.addAttribute("shares", shares);
 
         // Add other data to the model as needed
 

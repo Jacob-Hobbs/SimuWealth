@@ -22,4 +22,7 @@ public class AlphaVantageResponse {
         stockDataMap.put(key, value);
     }
 
+    @JsonProperty("Meta Data")
+    private MetaData metaData;
+
 }

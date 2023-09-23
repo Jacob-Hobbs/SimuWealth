@@ -401,6 +401,7 @@
                                                 </div>
                                                 <input type="hidden" name="stockSymbol" th:value="${symbol}" />
                                                 <input type="hidden" name="currentPrice" th:value="${currentPrice.get(symbol)}" />
+                                                <input type="hidden" name="shares" th:value="${stockQuantities.get(symbol)}" />
                                             </form>
                                         </div>
                                     </div>

@@ -4,13 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projects.simuwealth.simuwealth.Entity.Stock;
 import com.projects.simuwealth.simuwealth.Entity.User;
 import com.projects.simuwealth.simuwealth.Repository.StockRepository;
+import com.projects.simuwealth.simuwealth.Repository.UserRepository;
 import com.projects.simuwealth.simuwealth.Service.ApiService.AlphaVantageResponse;
 import com.projects.simuwealth.simuwealth.Service.ApiService.StockData;
 import com.projects.simuwealth.simuwealth.Service.ApiService.TimeSeriesData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +27,9 @@ public class StockService {
 
     @Autowired
     private StockRepository stockRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public StockService() {
         this.objectMapper = new ObjectMapper();
@@ -133,4 +139,51 @@ public class StockService {
     }
 
 
+    public void updateUserStocks(User currentUser, List<Stock> stockList) {
+        // Create a list to store stock IDs
+        List<Integer> stockIds = new ArrayList<>();
+
+        // Add the IDs of the stocks in the stockList to the stockIds list
+        for (Stock stock : stockList) {
+            stockIds.add(stock.getStock_Id());
+        }
+
+        // Set the stockIds list as the new stockList for the currentUser
+        currentUser.setStockList(stockIds);
+
+        // Save the updated user entity
+        userRepository.save(currentUser);
+    }
+
+    public void deleteStock(Stock stock) {
+        stockRepository.delete(stock);
+    }
+
+    public Map<String, TimeSeriesData> getTimeSeriesData(String ticker) {
+        String apiUrl = alphaVantageBaseUrl +
+                "?function=TIME_SERIES_INTRADAY&symbol=" + ticker +
+                "&interval=5min&apikey=" + alphaVantageApiKey;
+
+        RestTemplate restTemplate = new RestTemplate();
+        String jsonResponse = restTemplate.getForObject(apiUrl, String.class);
+
+        System.out.println("JSON Response for Time Series Data: " + jsonResponse);
+
+        AlphaVantageResponse response = deserializeJson(jsonResponse);
+
+        try {
+            if (response != null && response.getTimeSeries() != null) {
+                // Return the time series data
+                return response.getTimeSeries();
+            } else {
+                // Handle the case where no time series data is available
+                System.out.println("No time series data available.");
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception or log it for further investigation
+            return null;
+        }
+    }
 }

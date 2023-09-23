@@ -212,7 +212,8 @@
                                     <h2 style="color: white">
                                         <span th:text="${stockData.symbol}" style="color: #28A745"></span> Daily Performance:</h2>
                                     <!-- Content for the first column goes here -->
-                                    <img class="card-img-left" th:src="@{/images/piggyBankKid.jpeg}" alt="Profile Pic" style="width: 500px; border-radius: 20px">
+                                    <canvas id="stockChart" width="500" height="250"></canvas>
+                                    <div id="chart-data" th:attr="data-close-prices=${closePrices}"></div>
                                     <div class="row" style="color: white">
                                         <div class="col-md-6">
                                             <h5>Real Change: <span th:text="${stockData.change}" style="color: #28A745" th:id="realChangeSpan"></span></h5>
@@ -421,6 +422,76 @@
     window.addEventListener("load", formatChange);
     window.addEventListener("load", formatChangePercent);
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Retrieve the close prices from HTML attributes
+    var closePrices = document.getElementById('chart-data').getAttribute('data-close-prices').split(',');
+
+    // Create an array of integers from 0 to (length of closePrices - 1)
+    var xAxisValues = Array.from({ length: closePrices.length }, (_, index) => index);
+
+    // Format the data for Chart.js
+    var timeSeriesData = xAxisValues.map(function (xValue, index) {
+        return {
+            x: xValue,
+            y: parseFloat(closePrices[index])
+        };
+    });
+
+    // Create the Chart.js chart
+    var canvas = document.getElementById('stockChart');
+    var ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                data: timeSeriesData,
+                borderColor: 'rgb(40,167,69)',
+                borderWidth: 2,
+                fill: false,
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear', // Use 'linear' for integer values
+                    position: 'bottom',
+                    title: {
+                        display: false,
+                        text: 'X-Axis'
+                    },
+                    ticks: {
+                        color: 'rgb(8,33,14)', // Set the color of the tick marks
+                    },
+                    grid: {
+                        color: 'white', // Set the color of the x-axis grid lines to white
+                    }
+                },
+                y: {
+                    beginAtZero: false,
+                    title: {
+                        display: true,
+                        text: 'Close Prices ($)',
+                        color: 'rgb(40,167,69)'
+                    },
+                    ticks: {
+                        color: 'rgb(40,167,69)', // Set the color of the tick marks
+                    },
+                    grid: {
+                        color: 'white', // Set the color of the y-axis grid lines to white
+                    }
+                }
+            }
+        }
+    });
+</script>
+
 
 
 </body>
