@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimuWealth</title>
+    <link rel="icon"  th:href="@{/images/dollar.png}" type="image/png">
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include custom CSS for your styles -->
+    <link rel="stylesheet" href="../static/your-custom-styles.css">
+    <title>font awesome icons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
+    ></script>
+
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+
+    <style>
+        /* Style for the list items */
+        #suggestion-list li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Style for the list items on hover */
+        #suggestion-list li:hover {
+            background-color: #28A745;
+            color: #fff;
+        }
+    </style>
+
+
+
+</head>
+<body class="bg-gradient-primary" style="background-color: #EFFBF1;">
+<!-- Top Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); position: page; z-index: 2">
+
+    <a class="navbar-brand" href="#">Your Dashboard</a>
+    <!-- Search Bar -->
+    <form action="/stockDetails" method="get">
+        <div class="input-group" style="border: 1px solid #ced4da; border-radius: 0.25rem; width: 400px; transform: translateX(130px)">
+            <div class="form-outline" style="border: none;">
+                <input type="search" name="stockSymbol" id="form1" class="form-control" style="border: none;" oninput="searchStocks(this.value)" />
+                <ul id="suggestion-list" style="position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #08210E;
+    color: #28A745;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 3;">
+                    <!-- Your list items -->
+                </ul>
+                <label class="form-label" for="form1" style="border: none;">Search</label>
+            </div>
+            <button type="submit" class="btn btn-success" style="border: none;">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
+
+    <!-- Add navigation links or dropdown menus here -->
+    <div class="collapse navbar-collapse" id="navbarNav" style="padding-right: 30px">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                          th:text="${currentUser.firstName + ' ' + currentUser.lastName}"></span>
+                    <img class="img-profile rounded-circle"
+                         th:src="@{/images/__${currentUser.profilePicture}__}" style="width: 40px;" alt="Profile Picture">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="/userProfile">
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Profile
+                    </a>
+                    <a class="dropdown-item" href="/manageFunds">
+                        <i class="fas fa-coins fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Manage Funds
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Reports
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </a>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<!-- Dashboard Content -->
+<div>
+    <div class="row" >
+
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar" style="width: 10px; position: page; z-index: 6">
+
+            <div class="sidebar-content">
+                <!-- Sidebar content goes here -->
+                <ul class="nav flex-column" style="background-color: #08210E;
+        padding: 0;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        width: 250px;
+        left: 0;
+        margin: 0;">
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="padding-top: 15px;
+                        font-size: 32px; color: white">
+                        <div class="sidebar-brand-text mx-3"><i class="fas fa-dollar-sign fa-lg" style="color: #28A745;">
+                        </i>imuWealth
+                        </div>
+                    </a>
+                    <hr class="mx-auto" style="color: #ffffff; height: 1px; background-color: #ffffff; width: 218px; transform: translateY(-10px)">
+                    <li class="nav-item" style="transform: translateY(-9px)">
+                        <a class="nav-link active" href="/dashboard" style="color: white; font-size: 16px; padding-left: 35px">
+                            <i class="fas fa-gauge-high"></i>&nbsp Dashboard
+                        </a>
+                    </li>
+                    <div>
+                        <hr class="mx-auto" style="color: #ffffff; height: 1px; background-color: #ffffff; width: 218px; transform: translateY(-10px)">
+                        <div class="sidebar-heading" style="padding-left: 15px; color: #28A745">
+                            Strategy
+                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/portfolio" style="color: white; padding-top: 20px; padding-left: 35px">
+                                <i class="fas fa-chart-line"></i>&nbsp Portfolio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" style="color: white; padding-top: 10px; padding-left: 35px">
+                                <i class="fas fa-eye"></i>&nbsp Watchlist
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" style="color: white; padding-top: 10px; padding-left: 35px">
+                                <i class="far fa-folder-open"></i>&nbsp Reports
+                            </a>
+                        </li>
+                    </div>
+                    <div>
+                        <hr class="mx-auto" style="color: #ffffff; height: 1px; background-color: #ffffff; width: 218px; transform: translateY(-10px)">
+                        <div class="sidebar-heading" style="padding-left: 15px; color: #28A745">
+                            Market
+                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/buyStock" style="color: white; padding-top: 20px; padding-left: 35px">
+                                <i class="fas fa-scale-unbalanced"></i>&nbsp Buy Stock
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" style="color: white; padding-top: 10px; padding-left: 35px">
+                                <i class="fas fa-scale-unbalanced-flip"></i>&nbsp Sell Stock
+                            </a>
+                        </li>
+                    </div>
+
+
+                    <!-- Add more sidebar items as needed -->
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="transform: translateX(-30px); z-index: 1">
+            <!-- Your dashboard content goes here -->
+            <h1 style="padding-top: 20px; color: #08210E; font-size: 30px;">Sell Stock</h1>
+
+
+            <!-- Add content like charts, tables, etc. -->
+
+
+            <div class="row">
+
+                <!-- Area Chart -->
+                <div class="col-xl-12 col-lg-7" >
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: #08210E;">
+                            <h6 class="m-0 font-weight-bold text-success">Sell Your SimuStocks</h6>
+
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body" style="background-color: #08210E; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <!-- Content for the first column goes here -->
+                                    <img class="card-img-left" th:src="@{/images/scale.jpg}" alt="Profile Pic" style="width: 500px; border-radius: 20px">
+                                </div>
+                                <div class="col-md-6" style="padding-right: 50px">
+                                    <!-- Content for the second column goes here -->
+
+                                    <h3 style="color: white; text-align: center; padding-top: 5px">
+                                        <span th:text="${stockSymbol}" style="color: #28A745"></span> Sale Form
+                                    </h3>
+
+                                    <form class="user" th:action="@{/buyStock}" th:object="${currentUser}" method="post" style="padding-top: 15px">
+
+                                        <div class="form-group row" style="padding-bottom: 20px;">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="currentFunds" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-coins"  style="color: #28A745"></i> Available Investment Funds</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">$</span>
+                                                    <input type="number" class="form-control form-control-user" id="currentFunds"
+                                                           placeholder="First Name" th:field="*{capitol}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="currentPrice" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-chart-line"  style="color: #28A745"></i>&nbsp;<span th:text="${stockSymbol}"></span> Current Price</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">$</span>
+                                                    <input type="number" class="form-control form-control-user" id="currentPrice"
+                                                           placeholder="Current Price" disabled th:value="${currentPrice}">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row" style="padding-bottom: 20px;">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="purchaseQuantity" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-hashtag"  style="color: #28A745"></i> Purchase Quantity</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">#</span>
+                                                    <input type="number" class="form-control form-control-user" id="purchaseQuantity"
+                                                           placeholder="Enter Purchase Quantity" required step="1" min="0" oninput="calculatePurchaseTotal()" name="purchaseQuantity">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="purchaseTotal" style="justify-self: left; padding-bottom: 7px; color: white"><i class="fas fa-file-invoice-dollar"  style="color: #28A745"></i> Purchase Total</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="color: #28A745">$</span>
+                                                    <input type="number" class="form-control form-control-user" id="purchaseTotal"
+                                                           placeholder="0.00" step="0.01" min="0" name="purchaseTotal">
+                                                </div>
+                                                <span id="purchaseTotalError" style="color: red;"></span>
+                                            </div>
+
+                                        </div>
+
+                                        <input type="hidden" name="stockSymbol" th:value="${stockSymbol}" />
+                                        <input type="hidden" name="currentPrice" th:value="${currentPrice}" />
+
+
+                                        <div class="text-center" style="padding-bottom: 20px">
+                                            <button type="submit" class="btn btn-success btn-user" id="purchaseButton">Purchase &nbsp;<span th:text="${stockSymbol}"></span></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </main>
+    </div>
+</div>
+
+
+
+<!-- Include Bootstrap JS and any other JavaScript libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Add your custom JavaScript if needed -->
+<script>
+    function searchStocks(keyword) {
+        const apiKey = "CJ4959GSEKSYP5DW"; // Replace with your API key
+        const apiUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=${apiKey}&datatype=json`;
+
+        // Fetch data from AlphaVantage API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Get the search results
+                const searchResults = data.bestMatches;
+
+                // Get the suggestion list element
+                const suggestionList = document.getElementById("suggestion-list");
+
+                // Clear previous suggestions
+                suggestionList.innerHTML = "";
+
+                // Create and append suggestion items
+                searchResults.forEach(result => {
+                    const symbol = result["1. symbol"];
+                    const name = result["2. name"];
+                    const suggestionItem = document.createElement("li");
+
+                    // Set the suggestion text and add a click handler to populate the input field
+                    suggestionItem.textContent = `${symbol} - ${name}`;
+                    suggestionItem.addEventListener("click", () => {
+                        document.getElementById("form1").value = symbol;
+                        suggestionList.innerHTML = ""; // Clear the suggestion list
+                    });
+
+                    suggestionList.appendChild(suggestionItem);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    }
+</script>
+<script>
+    function calculatePurchaseTotal() {
+        // Get the values of purchaseQuantity and currentPrice
+        var purchaseQuantity = parseFloat(document.getElementById("purchaseQuantity").value);
+        var currentPrice = parseFloat(document.getElementById("currentPrice").value);
+        var capital = parseFloat(document.getElementById("currentFunds").value);
+
+        // Calculate the purchase total
+        var purchaseTotal = purchaseQuantity * currentPrice;
+
+        // Set the purchase total in the purchaseTotal input field
+        document.getElementById("purchaseTotal").value = purchaseTotal.toFixed(2); // You can format it to two decimal places
+
+        // Check if purchase total exceeds capital
+        if (purchaseTotal > capital) {
+            document.getElementById("purchaseTotalError").textContent = "Purchase total exceeds available capital";
+            document.getElementById("purchaseButton").setAttribute("disabled", "disabled"); // Disable the button
+        } else {
+            document.getElementById("purchaseTotalError").textContent = ""; // Clear error message
+            document.getElementById("purchaseButton").removeAttribute("disabled");
+        }
+    }
+</script>
+
+
+
+
+</body>
+</html>

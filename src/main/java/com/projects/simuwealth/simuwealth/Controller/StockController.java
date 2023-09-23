@@ -75,6 +75,51 @@ public class StockController {
         }
     }
 
+    @GetMapping("/sellStock")
+    public String sellStockPage(Model model, @RequestParam String stockSymbol, HttpServletRequest request) {
+
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+
+        if (currentUser != null) {
+            model.addAttribute("currentUser", currentUser);
+
+            // Fetch global quote data for the specified stockSymbol
+            StockData stockData = stockService.getGlobalQuote(stockSymbol);
+
+            if (stockData != null) {
+                // Check if the stockData contains valid data
+                if (stockData.getOpen() != null && stockData.getHigh() != null && stockData.getLow() != null &&
+                        stockData.getVolume() != null && stockData.getPreviousClose() != null) {
+                    model.addAttribute("stockData", stockData);
+                    return "sellStock";
+                } else {
+                    // Handle the case where the stockData has missing or null values
+                    return "404";
+                }
+            } else {
+                // Handle the case where no data is available for the given stockSymbol
+                return "404";
+            }
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @PostMapping("/buyStock")
     public String purchaseStock(
             @RequestParam String stockSymbol,
@@ -199,6 +244,22 @@ public class StockController {
         // Add other data to the model as needed
 
         return "buyStock"; // Return the /buyStock page
+    }
+
+    @PostMapping("/portfolioSell")
+    public String sellStockPageFromPortfolio(Model model, @RequestParam String stockSymbol, @RequestParam Double currentPrice, HttpServletRequest request) {
+        // Retrieve the currentUser and other data as needed
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+        request.getSession().setAttribute("currentUser", currentUser);
+        model.addAttribute("currentUser", currentUser);
+
+        // Populate the model with data for the /buyStock page
+        model.addAttribute("stockSymbol", stockSymbol);
+        model.addAttribute("currentPrice", currentPrice);
+
+        // Add other data to the model as needed
+
+        return "sellStock"; // Return the /buyStock page
     }
 
 

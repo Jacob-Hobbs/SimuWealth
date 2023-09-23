@@ -378,26 +378,32 @@
                                         </div>
                                     </div>
 
-                                    <form class="user" method="post" th:action="@{/stockDetails}" th:object="${stockData}">
-                                        <div class="form-group row">
-                                            <div class="d-flex justify-content-center">
-                                                <div class="text-center" style="padding-bottom: 20px; padding-right: 30px">
-                                                    <div class="text-center" style="padding-bottom: 20px; padding-right: 30px">
-                                                        <a href="/buyStock">
-                                                            <button type="submit" class="btn btn-success btn-user" ><i class="fas fa-cart-shopping"></i>&nbsp; Buy &nbsp;<span th:text="${symbol}" style="color: white;"></span></button>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="text-center" style="padding-bottom: 20px">
-                                                    <button type="submit" class="btn btn-success btn-user" id="sellButton">
-                                                        Sell &nbsp;<span th:text="${symbol}"></span>
+                                    <!-- Buy Form -->
+                                    <div class="form-group row">
+                                        <div class="d-flex justify-content-center">
+                                            <!-- Buy Form -->
+                                            <form class="user" method="post" th:action="@{/stockDetails}" th:object="${stockData}">
+                                                <div class="text-center" style="padding-right: 30px">
+                                                    <button type="submit" class="btn btn-success btn-user">
+                                                        Buy &nbsp;<span th:text="${symbol}" style="color: white;"></span>
                                                     </button>
                                                 </div>
-                                            </div>
+                                                <input type="hidden" name="stockSymbol" th:value="${symbol}" />
+                                                <input type="hidden" name="currentPrice" th:value="${currentPrice.get(symbol)}" />
+                                            </form>
+
+                                            <!-- Sell Form -->
+                                            <form class="user" method="post" th:action="@{/portfolioSell}" th:object="${stockData}">
+                                                <div class="text-center">
+                                                    <button type="submit" class="btn btn-success btn-user">
+                                                        Sell &nbsp;<span th:text="${symbol}" style="color: white;"></span>
+                                                    </button>
+                                                </div>
+                                                <input type="hidden" name="stockSymbol" th:value="${symbol}" />
+                                                <input type="hidden" name="currentPrice" th:value="${currentPrice.get(symbol)}" />
+                                            </form>
                                         </div>
-                                        <input type="hidden" name="stockSymbol" th:value="${stockData.get(symbol).getSymbol()}" />
-                                        <input type="hidden" name="currentPrice" th:value="${stockData.get(symbol).getPrice()}" />
-                                    </form>
+                                    </div>
 
                                 </div>
                             </div>
