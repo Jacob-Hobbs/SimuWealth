@@ -76,6 +76,20 @@
             </button>
         </div>
     </form>
+    <div class="nav-item" style="transform: translate(165px, 3px);">
+        <marquee id="stockMarquee" behavior="scroll" direction="left" scrollamount="7" style="color: #28A745; width: 975px;"> <!-- Adjust scrollamount for the speed -->
+            <!-- Your revolving text content goes here -->
+            Ford F <span th:text="${marqueePrices[0]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[0]}"></span> &nbsp;&nbsp;&nbsp;
+            Tesla TSLA <span th:text="${marqueePrices[1]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[1]}"></span> &nbsp;&nbsp;&nbsp;
+            Apple AAPL <span th:text="${marqueePrices[2]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[2]}"></span> &nbsp;&nbsp;&nbsp;
+            Amazon AMZN <span th:text="${marqueePrices[3]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[3]}"></span> &nbsp;&nbsp;&nbsp;
+            Nvidia NVDA <span th:text="${marqueePrices[4]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[4]}"></span> &nbsp;&nbsp;&nbsp;
+            Bank of America BAC <span th:text="${marqueePrices[5]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[5]}"></span> &nbsp;&nbsp;&nbsp;
+            Magellan MMP <span th:text="${marqueePrices[6]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[6]}"></span> &nbsp;&nbsp;&nbsp;
+            Intel INTC <span th:text="${marqueePrices[7]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[7]}"></span> &nbsp;&nbsp;&nbsp;
+            Microsoft MSFT <span th:text="${marqueePrices[8]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[8]}"></span> &nbsp;&nbsp;&nbsp;
+        </marquee>
+    </div>
     <!-- Add navigation links or dropdown menus here -->
     <div class="collapse navbar-collapse" id="navbarNav" style="padding-right: 30px">
         <ul class="navbar-nav ml-auto">
@@ -311,7 +325,50 @@
             });
     }
 </script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
 
+    // Function to generate individual stock item HTML
+    function generateStockItem(companyName, price, percent) {
+        const iconClass = percent < 0 ? 'fas fa-caret-down' : 'fas fa-caret-up';
+        const textColor = percent < 0 ? 'red' : 'green';
+
+        return `
+        <span style="color: ${textColor};">
+            ${companyName} ${price.toFixed(2)} &nbsp;<i class="${iconClass}"></i>&nbsp; ${percent.toFixed(2)} &nbsp;&nbsp;&nbsp;
+        </span>
+        `;
+    }
+
+    // Function to update the marquee content
+    function updateMarquee() {
+        const marquee = document.getElementById('stockMarquee');
+        let marqueeContent = '';
+
+        // Replace with your actual Thymeleaf expressions
+        const marqueePrices = /*[[${marqueePrices}]]*/ [];
+        const marqueePercents = /*[[${marqueePercents}]]*/ [];
+
+        // List of company names
+        const companyNames = ['Ford F', 'Tesla TSLA', 'Apple AAPL', 'Amazon AMZN', 'Nvidia NVDA', 'Bank of America BAC', 'Magellan MMP', 'Intel INTC', 'Microsoft MSFT'];
+
+        // Loop through the data and generate stock items
+        for (let i = 0; i < marqueePrices.length; i++) {
+            const companyName = companyNames[i];
+            const price = marqueePrices[i];
+            const percent = parseFloat(marqueePercents[i]);
+
+            marqueeContent += generateStockItem(companyName, price, percent);
+        }
+
+        marquee.innerHTML = marqueeContent;
+    }
+
+    // Call the updateMarquee function to initially populate the marquee
+    updateMarquee();
+
+    /*]]>*/
+</script>
 
 
 

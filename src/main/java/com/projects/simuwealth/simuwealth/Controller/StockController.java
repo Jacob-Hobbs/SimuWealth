@@ -176,71 +176,6 @@ public class StockController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @PostMapping("/buyStock")
     public String purchaseStock(
             @RequestParam String stockSymbol,
@@ -254,6 +189,7 @@ public class StockController {
 
         // Calculate the purchase amount
         double purchaseAmount = currentPrice * purchaseQuantity;
+
 
         // Check if currentUser is not null
         if (currentUser != null) {
@@ -324,6 +260,29 @@ public class StockController {
     @GetMapping("/stockDetails")
     public String stockDetailsPage(Model model, @RequestParam String stockSymbol, HttpServletRequest request) throws JsonProcessingException {
         User currentUser = (User) request.getSession().getAttribute("currentUser");
+
+        List<Double> marqueePrices = new ArrayList<>();
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("F") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("TSLA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AAPL") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AMZN") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("NVDA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("BAC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MMP") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("INTC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MSFT") * 100.0) / 100.0);
+        model.addAttribute("marqueePrices", marqueePrices);
+        List<String> marqueePercents = new ArrayList<>();
+        marqueePercents.add(stockService.getGlobalQuote("F").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("TSLA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AAPL").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AMZN").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("NVDA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("BAC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MMP").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("INTC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MSFT").getChangePercent());
+        model.addAttribute("marqueePercents", marqueePercents);
 
         if (currentUser != null) {
             model.addAttribute("currentUser", currentUser);
@@ -404,6 +363,7 @@ public class StockController {
         // Populate the model with data for the /buyStock page
         model.addAttribute("stockSymbol", stockSymbol);
         model.addAttribute("currentPrice", currentPrice);
+
 
         // Add other data to the model as needed
 

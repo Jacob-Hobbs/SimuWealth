@@ -6,6 +6,7 @@ import com.projects.simuwealth.simuwealth.Entity.User;
 import com.projects.simuwealth.simuwealth.Repository.StockRepository;
 import com.projects.simuwealth.simuwealth.Repository.UserRepository;
 import com.projects.simuwealth.simuwealth.Service.MailService.EmailSenderService;
+import com.projects.simuwealth.simuwealth.Service.StockService;
 import com.projects.simuwealth.simuwealth.Service.UserService;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -36,6 +39,9 @@ public class LoginController {
 
     @Autowired
     private StockRepository stockRepository;
+
+    @Autowired
+    private StockService stockService;
 
     @PostConstruct
     public void loadSampleData() {
@@ -150,6 +156,7 @@ public class LoginController {
         stock10.setPurchasePrice(139.06);
         stockRepository.save(stock10);
 
+
     }
 
     @GetMapping("/login")
@@ -172,6 +179,29 @@ public class LoginController {
         System.out.println("First Name: " + userdata.getFirstName());
         System.out.println("Last Name: " + userdata.getLastName());
 
+        List<Double> marqueePrices = new ArrayList<>();
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("F") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("TSLA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AAPL") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AMZN") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("NVDA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("BAC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MMP") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("INTC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MSFT") * 100.0) / 100.0);
+        model.addAttribute("marqueePrices", marqueePrices);
+        List<String> marqueePercents = new ArrayList<>();
+        marqueePercents.add(stockService.getGlobalQuote("F").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("TSLA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AAPL").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AMZN").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("NVDA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("BAC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MMP").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("INTC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MSFT").getChangePercent());
+        model.addAttribute("marqueePercents", marqueePercents);
+
         try {
 
             if ((user.getPassword().equals(userdata.getPassword())) && (user.getEmail().equals(userdata.getEmail()))) {
@@ -192,6 +222,7 @@ public class LoginController {
 
                 System.out.println("Session info: ");
                 System.out.println(session.getAttribute("currentUser").toString());
+
 
                 return "dashboard";
             } else if ((user.getPassword().equals(userdata.getPassword())) && (!(user.getEmail().equals(userdata.getEmail())))) {

@@ -43,6 +43,7 @@
             color: #fff; /* Change to your desired text color */
         }
     </style>
+
 </head>
 <body class="bg-gradient-primary" style="background-color: #EFFBF1;">
 <!-- Top Navigation Bar -->
@@ -77,6 +78,21 @@
             </button>
         </div>
     </form>
+
+    <div class="nav-item" style="transform: translate(165px, 3px);">
+        <marquee id="stockMarquee" behavior="scroll" direction="left" scrollamount="7" style="color: #28A745; width: 975px;"> <!-- Adjust scrollamount for the speed -->
+            <!-- Your revolving text content goes here -->
+            Ford F <span th:text="${marqueePrices[0]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[0]}"></span> &nbsp;&nbsp;&nbsp;
+            Tesla TSLA <span th:text="${marqueePrices[1]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[1]}"></span> &nbsp;&nbsp;&nbsp;
+            Apple AAPL <span th:text="${marqueePrices[2]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[2]}"></span> &nbsp;&nbsp;&nbsp;
+            Amazon AMZN <span th:text="${marqueePrices[3]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[3]}"></span> &nbsp;&nbsp;&nbsp;
+            Nvidia NVDA <span th:text="${marqueePrices[4]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[4]}"></span> &nbsp;&nbsp;&nbsp;
+            Bank of America BAC <span th:text="${marqueePrices[5]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[5]}"></span> &nbsp;&nbsp;&nbsp;
+            Magellan MMP <span th:text="${marqueePrices[6]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[6]}"></span> &nbsp;&nbsp;&nbsp;
+            Intel INTC <span th:text="${marqueePrices[7]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[7]}"></span> &nbsp;&nbsp;&nbsp;
+            Microsoft MSFT <span th:text="${marqueePrices[8]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[8]}"></span> &nbsp;&nbsp;&nbsp;
+        </marquee>
+    </div>
 
 
 
@@ -207,78 +223,32 @@
             <div class="row">
 
                 <!-- Area Chart -->
-                <div class="col-xl-8 col-lg-7" >
-                    <div class="card shadow mb-4" >
-                        <!-- Card Header - Dropdown -->
-                        <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body" >
-                            <div class="chart-area">
-                                <canvas id="myAreaChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pie Chart -->
-                <div class="col-xl-4 col-lg-5">
+                <div class="col-xl-12 col-lg-12">
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
-                        <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: #08210E">
+                            <h6 class="m-0 font-weight-bold" style="color: #28A745">Showcase Stocks</h6>
                         </div>
                         <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-pie pt-4 pb-2">
-                                <canvas id="myPieChart"></canvas>
-                            </div>
-                            <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
+                        <div class="card-body" style="background-color: #08210E">
+                            <div class="display-area">
+                                <marquee behavior="scroll" direction="left" scrollamount="7" style="color: #28A745"> <!-- Adjust scrollamount for the speed -->
+                                    <!-- Your revolving text content goes here -->
+                                    Stock 1: Details about Stock 1 | Stock 2: Details about Stock 2 | Stock 3: Details about Stock 3
+                                </marquee>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
 
 
             <div class="row">
@@ -288,20 +258,6 @@
                         <!-- Card Header - Dropdown -->
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink1">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
                         </div>
                         <!-- Card Body -->
                         <div class="card-body">
@@ -318,20 +274,6 @@
                         <!-- Card Header - Dropdown -->
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink2">
-                                    <div class="dropdown-header">Dropdown Header:</div>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
                         </div>
                         <!-- Card Body -->
                         <div class="card-body">
@@ -392,7 +334,50 @@
             });
     }
 </script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
 
+    // Function to generate individual stock item HTML
+    function generateStockItem(companyName, price, percent) {
+        const iconClass = percent < 0 ? 'fas fa-caret-down' : 'fas fa-caret-up';
+        const textColor = percent < 0 ? 'red' : 'green';
+
+        return `
+        <span style="color: ${textColor};">
+            ${companyName} ${price.toFixed(2)} &nbsp;<i class="${iconClass}"></i>&nbsp; ${percent.toFixed(2)} &nbsp;&nbsp;&nbsp;
+        </span>
+        `;
+    }
+
+    // Function to update the marquee content
+    function updateMarquee() {
+        const marquee = document.getElementById('stockMarquee');
+        let marqueeContent = '';
+
+        // Replace with your actual Thymeleaf expressions
+        const marqueePrices = /*[[${marqueePrices}]]*/ [];
+        const marqueePercents = /*[[${marqueePercents}]]*/ [];
+
+        // List of company names
+        const companyNames = ['Ford F', 'Tesla TSLA', 'Apple AAPL', 'Amazon AMZN', 'Nvidia NVDA', 'Bank of America BAC', 'Magellan MMP', 'Intel INTC', 'Microsoft MSFT'];
+
+        // Loop through the data and generate stock items
+        for (let i = 0; i < marqueePrices.length; i++) {
+            const companyName = companyNames[i];
+            const price = marqueePrices[i];
+            const percent = parseFloat(marqueePercents[i]);
+
+            marqueeContent += generateStockItem(companyName, price, percent);
+        }
+
+        marquee.innerHTML = marqueeContent;
+    }
+
+    // Call the updateMarquee function to initially populate the marquee
+    updateMarquee();
+
+    /*]]>*/
+</script>
 
 
 

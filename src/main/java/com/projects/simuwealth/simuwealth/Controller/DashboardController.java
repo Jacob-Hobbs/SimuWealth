@@ -39,6 +39,29 @@ public class DashboardController {
 
         User currentUser = (User) request.getSession().getAttribute("currentUser");
 
+        List<Double> marqueePrices = new ArrayList<>();
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("F") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("TSLA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AAPL") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AMZN") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("NVDA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("BAC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MMP") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("INTC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MSFT") * 100.0) / 100.0);
+        model.addAttribute("marqueePrices", marqueePrices);
+        List<String> marqueePercents = new ArrayList<>();
+        marqueePercents.add(stockService.getGlobalQuote("F").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("TSLA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AAPL").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AMZN").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("NVDA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("BAC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MMP").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("INTC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MSFT").getChangePercent());
+        model.addAttribute("marqueePercents", marqueePercents);
+
 
         if (currentUser != null) {
             model.addAttribute("currentUser", currentUser);
@@ -51,6 +74,29 @@ public class DashboardController {
 
     @GetMapping("/manageFunds")
     public String getManageFundsPage(Model model, HttpServletRequest request) {
+
+        List<Double> marqueePrices = new ArrayList<>();
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("F") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("TSLA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AAPL") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AMZN") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("NVDA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("BAC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MMP") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("INTC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MSFT") * 100.0) / 100.0);
+        model.addAttribute("marqueePrices", marqueePrices);
+        List<String> marqueePercents = new ArrayList<>();
+        marqueePercents.add(stockService.getGlobalQuote("F").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("TSLA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AAPL").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AMZN").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("NVDA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("BAC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MMP").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("INTC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MSFT").getChangePercent());
+        model.addAttribute("marqueePercents", marqueePercents);
 
         User currentUser = (User) request.getSession().getAttribute("currentUser");
 
@@ -80,6 +126,29 @@ public class DashboardController {
     public String getPortfolio(Model model, HttpServletRequest request) {
         User currentUser = (User) request.getSession().getAttribute("currentUser");
         model.addAttribute("currentUser", currentUser);
+
+        List<Double> marqueePrices = new ArrayList<>();
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("F") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("TSLA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AAPL") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AMZN") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("NVDA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("BAC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MMP") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("INTC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MSFT") * 100.0) / 100.0);
+        model.addAttribute("marqueePrices", marqueePrices);
+        List<String> marqueePercents = new ArrayList<>();
+        marqueePercents.add(stockService.getGlobalQuote("F").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("TSLA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AAPL").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AMZN").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("NVDA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("BAC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MMP").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("INTC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MSFT").getChangePercent());
+        model.addAttribute("marqueePercents", marqueePercents);
 
         // Retrieve the user's current capital from your data source
         double currentCapital = currentUser.getCapitol();
