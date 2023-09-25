@@ -389,4 +389,35 @@ public class StockController {
 
 
 
+
+    @PostMapping("/addToWatchlist")
+    public String addToWatchlist(Model model, @RequestParam String stockSymbol, HttpServletRequest request) {
+        // Retrieve the currentUser and other data as needed
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+
+        List<String> watchlist = currentUser.getWatchlist();
+
+        System.out.println("WATCHLIST CONTENTS: " + watchlist.toString());
+
+        if (!watchlist.contains(stockSymbol)) {
+            watchlist.add(stockSymbol);
+
+            System.out.println("WATCHLIST CONTENTS AFTER ADD: " + watchlist.toString());
+
+            // Update the user's watchlist without saving the entire user object
+            userService.addToWatchlist(currentUser, watchlist);
+
+            System.out.println("WATCHLIST CONTENTS WHOLE: " + currentUser.getWatchlist().toString());
+
+            return "redirect:/watchlist"; // Redirect to the watchlist page
+        }
+
+        System.out.println(stockSymbol + " already added to watchlist!!");
+
+        return "redirect:/watchlist"; // Redirect to the watchlist page
+    }
+
+
+
+
 }

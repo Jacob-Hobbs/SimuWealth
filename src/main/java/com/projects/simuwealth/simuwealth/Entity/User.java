@@ -48,11 +48,17 @@ public class User {
     @Column(name = "stock_id")
     private List<Integer> stockList = new ArrayList<>();
 
+    @ElementCollection
+    @CollectionTable(name = "watchlist", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "stock_symbol")
+    private List<String> watchlist;
+
     public User() {
         // blank constructor as required by JPA/Hibernate
     }
 
-    public User(int userId, String email, String password, String firstName, String lastName, String profilePicture, double capitol, List<Integer> stockList) {
+    public User(int userId, String email, String password, String firstName, String lastName,
+                String profilePicture, double capitol, List<Integer> stockList, List<String> watchlist) {
         this.userId = userId;
         this.email = email;
         this.password = password;
@@ -61,6 +67,7 @@ public class User {
         this.profilePicture = profilePicture;
         this.capitol = capitol;
         this.stockList = stockList;
+        this.watchlist = watchlist;
     }
 
     public int getUserId() {
@@ -127,6 +134,14 @@ public class User {
         this.stockList = stockList;
     }
 
+    public List<String> getWatchlist() {
+        return watchlist;
+    }
+
+    public void setWatchlist(List<String> watchlist) {
+        this.watchlist = watchlist;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -138,6 +153,7 @@ public class User {
                 ", profilePicture='" + profilePicture + '\'' +
                 ", capitol=" + capitol +
                 ", stockList=" + stockList +
+                ", watchlist=" + watchlist +
                 '}';
     }
 

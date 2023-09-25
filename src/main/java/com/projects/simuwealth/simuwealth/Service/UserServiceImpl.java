@@ -5,6 +5,9 @@ import com.projects.simuwealth.simuwealth.Repository.UserRepository;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -37,6 +40,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateUser(User currentUser) {
         userRepository.save(currentUser);
+    }
+
+    @Override
+    public void addToWatchlist(User user, List<String> watchlist) {
+        user.setWatchlist(watchlist);
+        userRepository.save(user);
     }
 
 }

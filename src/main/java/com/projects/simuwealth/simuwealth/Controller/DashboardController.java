@@ -4,6 +4,7 @@ import com.projects.simuwealth.simuwealth.Entity.Stock;
 import com.projects.simuwealth.simuwealth.Entity.User;
 import com.projects.simuwealth.simuwealth.Repository.UserRepository;
 import com.projects.simuwealth.simuwealth.Service.ApiService.StockData;
+import com.projects.simuwealth.simuwealth.Service.ApiService.TimeSeriesData;
 import com.projects.simuwealth.simuwealth.Service.StockService;
 import com.projects.simuwealth.simuwealth.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,15 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -323,5 +318,107 @@ public class DashboardController {
 
         return ResponseEntity.ok(moneySpentData);
     }
+
+    @GetMapping("/watchlist")
+    public String getWatchlist(Model model, HttpServletRequest request) {
+
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+
+        List<Double> marqueePrices = new ArrayList<>();
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("F") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("TSLA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AAPL") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("AMZN") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("NVDA") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("BAC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MMP") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("INTC") * 100.0) / 100.0);
+        marqueePrices.add(Math.round(stockService.getRealTimeStockPrice("MSFT") * 100.0) / 100.0);
+        model.addAttribute("marqueePrices", marqueePrices);
+        List<String> marqueePercents = new ArrayList<>();
+        marqueePercents.add(stockService.getGlobalQuote("F").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("TSLA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AAPL").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("AMZN").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("NVDA").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("BAC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MMP").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("INTC").getChangePercent());
+        marqueePercents.add(stockService.getGlobalQuote("MSFT").getChangePercent());
+        model.addAttribute("marqueePercents", marqueePercents);
+
+
+        if (currentUser != null) {
+            model.addAttribute("currentUser", currentUser);
+
+            List<String> watchlist = currentUser.getWatchlist();
+            List<StockData> watchlistStockData = new ArrayList<>();
+
+            for (String stockSymbol : watchlist) {
+                StockData stockData = stockService.getGlobalQuote(stockSymbol);
+                watchlistStockData.add(stockData);
+            }
+
+            model.addAttribute("watchlistStockData", watchlistStockData);
+
+            return "watchlist";
+        } else {
+            return "redirect:/login";
+        }
+
+    }
+
+    @PostMapping("/removeFromWatchlist")
+    public String removeFromWatchlist(@RequestParam("stockSymbol") String stockSymbol, HttpServletRequest request) {
+        // Get the currently logged-in user from the session
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+
+        if (currentUser != null) {
+            // Remove the stock symbol from the user's watchlist
+            List<String> watchlist = currentUser.getWatchlist();
+            if (watchlist.contains(stockSymbol)) {
+                watchlist.remove(stockSymbol);
+            }
+
+            // Update the user's watchlist in your data storage (e.g., database)
+            userService.updateUser(currentUser);
+
+            // Redirect the user to the dashboard
+            return "redirect:/dashboard";
+        } else {
+            // Handle the case when the user is not logged in (redirect to login page, for example)
+            return "redirect:/login";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
