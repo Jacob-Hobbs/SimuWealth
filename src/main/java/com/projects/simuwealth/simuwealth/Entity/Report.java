@@ -29,12 +29,12 @@ public class Report {
     private String percentReturn;
 
     @Column(name = "reportDate")
-    private LocalDateTime reportDate;
+    private String reportDate;
 
     public Report() {
     }
 
-    public Report(int report_Id, User user, double totalFunds, double totalReturn, String percentReturn, LocalDateTime reportDate) {
+    public Report(int report_Id, User user, double totalFunds, double totalReturn, String percentReturn, String reportDate) {
         this.report_Id = report_Id;
         this.user = user;
         this.totalFunds = totalFunds;
@@ -83,11 +83,11 @@ public class Report {
         this.percentReturn = percentReturn;
     }
 
-    public LocalDateTime getReportDate() {
+    public String getReportDate() {
         return reportDate;
     }
 
-    public void setReportDate(LocalDateTime reportDate) {
+    public void setReportDate(String reportDate) {
         this.reportDate = reportDate;
     }
 

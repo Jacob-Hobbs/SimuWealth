@@ -1,10 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimuWealth</title>
+    <link rel="icon" th:href="@{/images/dollar3.png}" type="image/png">
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include custom CSS for your styles -->
+    <link rel="stylesheet" href="../static/your-custom-styles.css">
+    <title>font awesome icons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
+    ></script>
+
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+    <style>
+        /* Style for the list items */
+        #suggestion-list li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Style for the list items on hover */
+        #suggestion-list li:hover {
+            background-color: #28A745; /* Change to your desired highlight color */
+            color: #fff; /* Change to your desired text color */
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gradient-primary" style="background-color: #EFFBF1;">
+<!-- Top Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); position: page; z-index: 2">
+
+    <a class="navbar-brand" href="#">Your Dashboard</a>
+
+
+
+
+    <!-- Search Bar -->
+    <form action="/stockDetails" method="get">
+        <div class="input-group" style="border: 1px solid #ced4da; border-radius: 0.25rem; width: 400px; transform: translateX(130px)">
+            <div class="form-outline" style="border: none;">
+                <input type="search" name="stockSymbol" id="form1" class="form-control" style="border: none;" oninput="searchStocks(this.value)" />
+                <ul id="suggestion-list" style="position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #08210E;
+    color: #28A745;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 3;">
+                    <!-- Your list items -->
+                </ul>
+                <label class="form-label" for="form1" style="border: none;">Search</label>
+            </div>
+            <button type="submit" class="btn btn-success" style="border: none;">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
+
+    <div class="nav-item" style="transform: translate(165px, 3px);">
+        <marquee id="stockMarquee" behavior="scroll" direction="left" scrollamount="7" style="color: #28A745; width: 975px;"> <!-- Adjust scrollamount for the speed -->
+            <!-- Your revolving text content goes here -->
+            Ford F <span th:text="${marqueePrices[0]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[0]}"></span> &nbsp;&nbsp;&nbsp;
+            Tesla TSLA <span th:text="${marqueePrices[1]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[1]}"></span> &nbsp;&nbsp;&nbsp;
+            Apple AAPL <span th:text="${marqueePrices[2]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[2]}"></span> &nbsp;&nbsp;&nbsp;
+            Amazon AMZN <span th:text="${marqueePrices[3]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[3]}"></span> &nbsp;&nbsp;&nbsp;
+            Nvidia NVDA <span th:text="${marqueePrices[4]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[4]}"></span> &nbsp;&nbsp;&nbsp;
+            Bank of America BAC <span th:text="${marqueePrices[5]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[5]}"></span> &nbsp;&nbsp;&nbsp;
+            Magellan MMP <span th:text="${marqueePrices[6]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[6]}"></span> &nbsp;&nbsp;&nbsp;
+            Intel INTC <span th:text="${marqueePrices[7]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[7]}"></span> &nbsp;&nbsp;&nbsp;
+            Microsoft MSFT <span th:text="${marqueePrices[8]}"></span> &nbsp;<i class="fas fa-caret-up"></i>&nbsp; <span th:text="${marqueePercents[8]}"></span> &nbsp;&nbsp;&nbsp;
+        </marquee>
+    </div>
+
+
+
+
+
+    <!-- Add navigation links or dropdown menus here -->
+    <div class="collapse navbar-collapse" id="navbarNav" style="padding-right: 30px">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                          th:text="${currentUser.firstName + ' ' + currentUser.lastName}"></span>
+                    <img class="img-profile rounded-circle"
+                         th:src="@{/images/__${currentUser.profilePicture}__}" style="width: 40px;" alt="Profile Picture">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="/userProfile">
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Profile
+                    </a>
+                    <a class="dropdown-item" href="/manageFunds">
+                        <i class="fas fa-coins fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Manage Funds
+                    </a>
+                    <a class="dropdown-item" href="/generateReport">
+                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Generate Report
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </a>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<!-- Dashboard Content -->
+<div>
+    <div class="row" >
+
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar" style="width: 10px; position: page; z-index: 6">
+
+            <div class="sidebar-content">
+                <!-- Sidebar content goes here -->
+                <ul class="nav flex-column" style="background-color: #08210E;
+        padding: 0;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        width: 250px;
+        left: 0;
+        margin: 0;">
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="padding-top: 15px;
+                        font-size: 32px; color: white">
+                        <div class="sidebar-brand-text mx-3"><i class="fas fa-dollar-sign fa-lg" style="color: #28A745;">
+                        </i>imuWealth
+                        </div>
+                    </a>
+                    <hr class="mx-auto" style="color: #ffffff; height: 1px; background-color: #ffffff; width: 218px; transform: translateY(-10px)">
+                    <li class="nav-item" style="transform: translateY(-9px)">
+                        <a class="nav-link active" href="/dashboard" style="color: white; font-size: 16px; padding-left: 35px">
+                            <i class="fas fa-gauge-high"></i>&nbsp Dashboard
+                        </a>
+                    </li>
+                    <div>
+                        <hr class="mx-auto" style="color: #ffffff; height: 1px; background-color: #ffffff; width: 218px; transform: translateY(-10px)">
+                        <div class="sidebar-heading" style="padding-left: 15px; color: #28A745">
+                            Strategy
+                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/portfolio" style="color: white; padding-top: 20px; padding-left: 35px">
+                                <i class="fas fa-chart-line"></i>&nbsp Portfolio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/watchlist" style="color: white; padding-top: 10px; padding-left: 35px">
+                                <i class="fas fa-eye"></i>&nbsp Watchlist
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/reports" style="color: white; padding-top: 10px; padding-left: 35px">
+                                <i class="far fa-folder-open"></i>&nbsp Reports
+                            </a>
+                        </li>
+                    </div>
+                    <div>
+                        <hr class="mx-auto" style="color: #ffffff; height: 1px; background-color: #ffffff; width: 218px; transform: translateY(-10px)">
+                        <div class="sidebar-heading" style="padding-left: 15px; color: #28A745">
+                            Market
+                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/buyStock" style="color: white; padding-top: 20px; padding-left: 35px">
+                                <i class="fas fa-scale-unbalanced"></i>&nbsp Buy Stock
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" style="color: white; padding-top: 10px; padding-left: 35px">
+                                <i class="fas fa-scale-unbalanced-flip"></i>&nbsp Sell Stock
+                            </a>
+                        </li>
+                    </div>
+
+                    <!-- Add more sidebar items as needed -->
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="transform: translateX(-30px); z-index: 1">
+            <!-- Your dashboard content goes here -->
+            <h1 style="padding-top: 20px; color: #08210E; font-size: 30px;">Reports</h1>
+
+            <!-- Add content like charts, tables, etc. -->
+            <div class="row">
+                <!-- Area Chart 1 -->
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card shadow mb-4" style="background-color: #08210E">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold" style="color: #28A745">Your Generated Reports</h6>
+                        </div>
+                        <div class="card-body" style="background-color: #08210E;">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="reportTable" style="color: white">
+                                    <thead>
+                                    <tr>
+                                        <th>Report Date</th>
+                                        <th>Total Funds ($)</th>
+                                        <th>Total Return ($)</th>
+                                        <th>Percent Return (%)</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Use Thymeleaf to loop through reportMap entries and populate table rows -->
+                                    <tr th:each="entry : ${reportMap}">
+                                        <!-- Access the report object using the entry value -->
+                                        <td th:text="${entry.value.reportDate}"></td>
+                                        <td th:text="${entry.value.totalFunds}"></td>
+                                        <td th:text="${entry.value.totalReturn}"></td>
+                                        <td th:text="${entry.value.percentReturn}"></td>
+                                        <td>
+                                            <!-- Button to delete the report -->
+                                            <!-- Button to delete the report -->
+                                            <form th:action="@{/deleteReport}" method="post">
+                                                <input type="hidden" name="reportId" th:value="${entry.value.report_Id}" />
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Include Bootstrap JS and any other JavaScript libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Add your custom JavaScript if needed -->
+<script>
+    function searchStocks(keyword) {
+        const apiKey = "CJ4959GSEKSYP5DW"; // Replace with your API key
+        const apiUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=${apiKey}&datatype=json`;
+
+        // Fetch data from AlphaVantage API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Get the search results
+                const searchResults = data.bestMatches;
+
+                // Get the suggestion list element
+                const suggestionList = document.getElementById("suggestion-list");
+
+                // Clear previous suggestions
+                suggestionList.innerHTML = "";
+
+                // Create and append suggestion items
+                searchResults.forEach(result => {
+                    const symbol = result["1. symbol"];
+                    const name = result["2. name"];
+                    const suggestionItem = document.createElement("li");
+
+                    // Set the suggestion text and add a click handler to populate the input field
+                    suggestionItem.textContent = `${symbol} - ${name}`;
+                    suggestionItem.addEventListener("click", () => {
+                        document.getElementById("form1").value = symbol;
+                        suggestionList.innerHTML = ""; // Clear the suggestion list
+                    });
+
+                    suggestionList.appendChild(suggestionItem);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    // Function to generate individual stock item HTML
+    function generateStockItem(companyName, price, percent) {
+        const iconClass = percent < 0 ? 'fas fa-caret-down' : 'fas fa-caret-up';
+        const textColor = percent < 0 ? 'red' : 'green';
+
+        return `
+        <span style="color: ${textColor};">
+            ${companyName} ${price.toFixed(2)} &nbsp;<i class="${iconClass}"></i>&nbsp; ${percent.toFixed(2)} &nbsp;&nbsp;&nbsp;
+        </span>
+        `;
+    }
+
+    // Function to update the marquee content
+    function updateMarquee() {
+        const marquee = document.getElementById('stockMarquee');
+        let marqueeContent = '';
+
+        // Replace with your actual Thymeleaf expressions
+        const marqueePrices = /*[[${marqueePrices}]]*/ [];
+        const marqueePercents = /*[[${marqueePercents}]]*/ [];
+
+        // List of company names
+        const companyNames = ['Ford F', 'Tesla TSLA', 'Apple AAPL', 'Amazon AMZN', 'Nvidia NVDA', 'Bank of America BAC', 'Magellan MMP', 'Intel INTC', 'Microsoft MSFT'];
+
+        // Loop through the data and generate stock items
+        for (let i = 0; i < marqueePrices.length; i++) {
+            const companyName = companyNames[i];
+            const price = marqueePrices[i];
+            const percent = parseFloat(marqueePercents[i]);
+
+            marqueeContent += generateStockItem(companyName, price, percent);
+        }
+
+        marquee.innerHTML = marqueeContent;
+    }
+
+    // Call the updateMarquee function to initially populate the marquee
+    updateMarquee();
+
+    /*]]>*/
+</script>
+
+
 
 </body>
 </html>
