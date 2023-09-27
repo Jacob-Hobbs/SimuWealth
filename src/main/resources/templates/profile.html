@@ -51,6 +51,19 @@
       color: #fff; /* Change to your desired text color */
     }
   </style>
+  <style>
+    .nav-link-hover {
+      color: white !important; /* Use !important to ensure this style takes precedence */
+      font-size: 16px;
+      padding-left: 35px;
+      transition: color 0.3s; /* Add a smooth color transition over 0.3 seconds */
+    }
+
+    /* Style for the links on hover */
+    .nav-link-hover:hover {
+      color: #28A745 !important; /* Change the text color on hover to green (#28A745) */
+    }
+  </style>
 
 
 </head>
@@ -146,7 +159,7 @@
           </a>
           <hr class="mx-auto" style="color: #ffffff; height: 1px; background-color: #ffffff; width: 218px; transform: translateY(-10px)">
           <li class="nav-item" style="transform: translateY(-9px)">
-            <a class="nav-link active" href="/dashboard" style="color: white; font-size: 16px; padding-left: 35px">
+            <a class="nav-link nav-link-hover" href="/dashboard" style="color: white; font-size: 16px; padding-left: 35px">
               <i class="fas fa-gauge-high"></i>&nbsp Dashboard
             </a>
           </li>
@@ -156,36 +169,24 @@
               Strategy
             </div>
             <li class="nav-item">
-              <a class="nav-link active" href="/portfolio" style="color: white; padding-top: 20px; padding-left: 35px">
+              <a class="nav-link nav-link-hover" href="/portfolio" style="color: white; padding-top: 20px; padding-left: 35px">
                 <i class="fas fa-chart-line"></i>&nbsp Portfolio
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/watchlist" style="color: white; padding-top: 10px; padding-left: 35px">
+              <a class="nav-link nav-link-hover" href="/watchlist" style="color: white; padding-top: 10px; padding-left: 35px">
                 <i class="fas fa-eye"></i>&nbsp Watchlist
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/reports" style="color: white; padding-top: 10px; padding-left: 35px">
+              <a class="nav-link nav-link-hover" href="/reports" style="color: white; padding-top: 10px; padding-left: 35px">
                 <i class="far fa-folder-open"></i>&nbsp Reports
               </a>
             </li>
           </div>
           <div>
             <hr class="mx-auto" style="color: #ffffff; height: 1px; background-color: #ffffff; width: 218px; transform: translateY(-10px)">
-            <div class="sidebar-heading" style="padding-left: 15px; color: #28A745">
-              Market
-            </div>
-            <li class="nav-item">
-              <a class="nav-link active" href="/buyStock" style="color: white; padding-top: 20px; padding-left: 35px">
-                <i class="fas fa-scale-unbalanced"></i>&nbsp Buy Stock
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="#" style="color: white; padding-top: 10px; padding-left: 35px">
-                <i class="fas fa-scale-unbalanced-flip"></i>&nbsp Sell Stock
-              </a>
-            </li>
+
           </div>
 
 
