@@ -4,7 +4,9 @@ Simple overview of use/purpose.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+SimuWealth is an innovative Spring Boot MVC project that showcases the synergy of modern technologies in the realm of finance and education. Hosted on AWS Elastic Beanstalk, this dynamic application leverages Java, Spring Boot, and JPA/Hibernate to create a robust platform. Its foundation rests on a MySQL database, ensuring data integrity and accessibility.
+
+One of SimuWealth's standout features is its seamless email delivery mechanism through Gmail SMTP. It excels in basic session management and user authentication, providing a secure and personalized experience. SimuWealth's core functionality revolves around real-time and historical stock market data retrieved from the Alpha Vantage API. This empowers users to engage in simulated stock trading using virtual USD, with unique portfolio features tailored to each individual. Users can effortlessly buy and sell paper stocks using real-time data, curate watchlists, and generate insightful reports to monitor their positions effectively. The inclusion of stock time-series data empowers users to make informed financial decisions. Ultimately, SimuWealth is not just a financial application; it is an educational and financial training tool, designed to enhance financial literacy and investment acumen.
 
 ## Getting Started
 
