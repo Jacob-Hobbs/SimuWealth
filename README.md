@@ -1,6 +1,12 @@
 # 💲imuWealth
 
-Simple overview of use/purpose.
+Check it out live here: [SimuWealth Login Portal](https://bit.ly/SimuWealth)
+
+**Username**: _admin@simuwealth.com_ 
+
+**Password**: _password_
+
+_...or make your own credentials!_
 
 ## Description
 
