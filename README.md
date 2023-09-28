@@ -18,8 +18,15 @@ One of SimuWealth's standout features is its seamless email delivery mechanism t
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* Web Browser (works well in Google Chrome)
+* Java JDK 17.0.8 [(Download)](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+* Spring Boot Starter Data JPA
+* Spring Boot Starter Thymeleaf
+* Spring Boot Starter Web
+* Spring Boot Devtools
+* MySQL Connector J
+* Spring Boot Starter Test
+* Spring Boot Maven Plugin
 
 ### Installing
 
