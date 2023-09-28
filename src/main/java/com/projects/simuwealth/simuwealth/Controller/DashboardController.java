@@ -97,7 +97,6 @@ public class DashboardController {
 
         model.addAttribute("currentUser", currentUser);
 
-
         return "funds";
     }
 
@@ -180,13 +179,10 @@ public class DashboardController {
             double roundedRealtimePrice = Math.round(realTimePrice * 100.0) / 100.0;
             currentPrice.put(symbol, roundedRealtimePrice);
 
-
-
             totalStockValue = stockQuantities.get(symbol) * realTimePrice;
 
             double roundedTotalStockValue = Math.round(totalStockValue * 100.0) / 100.0;
             stockMarketValues.put(symbol, roundedTotalStockValue);
-
 
         }
 
@@ -200,7 +196,6 @@ public class DashboardController {
                     totalPurchaseAmount += stock.getPurchasePrice();
                     count += 1;
                 }
-
             }
             double avgPrice = totalPurchaseAmount / count;
             double roundedAveragePrice = Math.round(avgPrice * 100.0) / 100.0;
@@ -380,45 +375,15 @@ public class DashboardController {
                 watchlist.remove(stockSymbol);
             }
 
-            // Update the user's watchlist in your data storage (e.g., database)
+            // Update the user's watchlist in your data storage
             userService.updateUser(currentUser);
 
             // Redirect the user to the dashboard
             return "redirect:/dashboard";
         } else {
-            // Handle the case when the user is not logged in (redirect to login page, for example)
+
             return "redirect:/login";
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

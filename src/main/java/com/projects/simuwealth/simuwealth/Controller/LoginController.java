@@ -71,16 +71,6 @@ public class LoginController {
             newUser.setCapitol(5450.39);
             return userRepository.save(newUser);
         });
-        User jackiAdmin = userRepository.findById(String.valueOf(3)).orElseGet(() -> {
-            User newUser = new User();
-            newUser.setUserId(3);
-            newUser.setEmail("jackimcgoon@gmail.com");
-            newUser.setFirstName("Jacki");
-            newUser.setLastName("Hobbs");
-            newUser.setPassword("password");
-            newUser.setCapitol(7333.22);
-            return userRepository.save(newUser);
-        });
 
         // Test Admin Stock:
         Stock stock1 = new Stock();
@@ -155,6 +145,72 @@ public class LoginController {
         stock10.setSymbol("AMZN");
         stock10.setPurchasePrice(139.06);
         stockRepository.save(stock10);
+
+        Stock stock20 = new Stock();
+        stock20.setUser(defaultAdmin);
+        stock20.setSymbol("MA");
+        stock20.setPurchasePrice(395.47);
+        stockRepository.save(stock20);
+
+        Stock stock21 = new Stock();
+        stock21.setUser(defaultAdmin);
+        stock21.setSymbol("MA");
+        stock21.setPurchasePrice(395.47);
+        stockRepository.save(stock21);
+
+        Stock stock22 = new Stock();
+        stock22.setUser(defaultAdmin);
+        stock22.setSymbol("MA");
+        stock22.setPurchasePrice(390.47);
+        stockRepository.save(stock22);
+
+        Stock stock23 = new Stock();
+        stock23.setUser(defaultAdmin);
+        stock23.setSymbol("MA");
+        stock23.setPurchasePrice(395.47);
+        stockRepository.save(stock23);
+
+        Stock stock24 = new Stock();
+        stock24.setUser(defaultAdmin);
+        stock24.setSymbol("MA");
+        stock24.setPurchasePrice(397.47);
+        stockRepository.save(stock24);
+
+        Stock stock25 = new Stock();
+        stock25.setUser(defaultAdmin);
+        stock25.setSymbol("MA");
+        stock25.setPurchasePrice(400.03);
+        stockRepository.save(stock25);
+
+        Stock stock26 = new Stock();
+        stock26.setUser(defaultAdmin);
+        stock26.setSymbol("ORCL");
+        stock26.setPurchasePrice(103.55);
+        stockRepository.save(stock26);
+
+        Stock stock27 = new Stock();
+        stock27.setUser(defaultAdmin);
+        stock27.setSymbol("ORCL");
+        stock27.setPurchasePrice(103.55);
+        stockRepository.save(stock27);
+
+        Stock stock28 = new Stock();
+        stock28.setUser(defaultAdmin);
+        stock28.setSymbol("CCL");
+        stock28.setPurchasePrice(12.05);
+        stockRepository.save(stock28);
+
+        Stock stock29 = new Stock();
+        stock29.setUser(defaultAdmin);
+        stock29.setSymbol("CCL");
+        stock29.setPurchasePrice(12.93);
+        stockRepository.save(stock29);
+
+        Stock stock30 = new Stock();
+        stock30.setUser(defaultAdmin);
+        stock30.setSymbol("CCL");
+        stock30.setPurchasePrice(12.05);
+        stockRepository.save(stock30);
 
 
     }
@@ -241,15 +297,6 @@ public class LoginController {
         return "404";
     }
 
-
-
-
-
-
-
-
-
-
     @GetMapping("/forgotPassword")
     public String forgotPassword(Model model) {
         User user = new User();
@@ -271,7 +318,7 @@ public class LoginController {
         } else {
             model.addAttribute("user", user);
             String subject = "Password Reset";
-            String body = "Please follow the following link to reset your email: http://localhost:8080/resetPassword?email=" + email;
+            String body = "Please follow the following link to reset your email: SimuWealth-env.eba-2aiy2v8c.us-east-2.elasticbeanstalk.com/resetPassword?email=" + email;
 
             emailSenderService.sendEmail(email, subject, body);
 
@@ -316,9 +363,5 @@ public class LoginController {
 
         return "redirect:/login";
     }
-
-
-
-
 
 }

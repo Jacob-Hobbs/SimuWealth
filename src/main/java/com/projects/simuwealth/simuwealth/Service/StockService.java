@@ -70,7 +70,7 @@ public class StockService {
                 // Debug prints to check the contents of timeSeries
                 System.out.println("timeSeries: " + timeSeries);
 
-                // Assuming you want to retrieve the latest available data point
+
                 // Get the first entry in the timeSeries map (latest timestamp)
                 String latestTimestamp = timeSeries.keySet().iterator().next();
                 TimeSeriesData latestData = timeSeries.get(latestTimestamp);

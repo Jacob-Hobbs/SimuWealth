@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -89,7 +87,6 @@ public class ReportController {
 
         // Fetch necessary data from the currentUser
         int userId = currentUser.getUserId();
-        // You can fetch other data related to the report from the currentUser
 
         // Create a new Report entity and set its properties
         Report report = new Report();
@@ -135,14 +132,10 @@ public class ReportController {
             double roundedRealtimePrice = Math.round(realTimePrice * 100.0) / 100.0;
             currentPrice.put(symbol, roundedRealtimePrice);
 
-
-
             totalStockValue = stockQuantities.get(symbol) * realTimePrice;
 
             double roundedTotalStockValue = Math.round(totalStockValue * 100.0) / 100.0;
             stockMarketValues.put(symbol, roundedTotalStockValue);
-
-
         }
 
         for (String symbol: stockSymbols) {
@@ -204,11 +197,9 @@ public class ReportController {
         report.setTotalReturn(roundedTotalReturn);
         report.setTotalFunds(currentUser.getCapitol());
 
-
-        // Save the report to the database using your service
         reportService.saveReport(report);
 
-        // Redirect to the reports page or another appropriate page
+        // Redirect to the reports page
         return "redirect:/reports";
     }
 
@@ -224,10 +215,9 @@ public class ReportController {
             // Redirect the user to the dashboard
             return "redirect:/dashboard";
         } else {
-            // Handle the case when the user is not logged in (redirect to login page, for example)
+            // Handle the case when the user is not logged in
             return "redirect:/login";
         }
     }
-
 
 }

@@ -159,10 +159,9 @@ public class StockController {
                         .collect(Collectors.toList());
 
                 for (Stock soldStock : soldStocks) {
-                    stockService.deleteStock(soldStock); // Add this method in StockService
+                    stockService.deleteStock(soldStock);
                 }
 
-                // Redirect to a success page or perform any other necessary actions
                 return "redirect:/dashboard";
             } else {
                 // Handle the case where currentUser does not have enough shares to sell
@@ -174,7 +173,6 @@ public class StockController {
             return "redirect:/login";
         }
     }
-
 
     @PostMapping("/buyStock")
     public String purchaseStock(
@@ -224,7 +222,7 @@ public class StockController {
                 // Update the currentUser in the database
                 userService.updateUser(currentUser);
 
-                // Redirect to a success page or perform any other necessary actions
+                // Redirect to a success page
                 return "redirect:/dashboard";
             } else {
                 // use case for invalid transaction
@@ -235,27 +233,6 @@ public class StockController {
             return "redirect:/login";
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @GetMapping("/stockDetails")
     public String stockDetailsPage(Model model, @RequestParam String stockSymbol, HttpServletRequest request) throws JsonProcessingException {
@@ -355,7 +332,7 @@ public class StockController {
 
     @PostMapping("/stockDetails")
     public String buyStockPage(Model model, @RequestParam String stockSymbol, @RequestParam Double currentPrice, HttpServletRequest request) {
-        // Retrieve the currentUser and other data as needed
+        // Retrieve the currentUser
         User currentUser = (User) request.getSession().getAttribute("currentUser");
         request.getSession().setAttribute("currentUser", currentUser);
         model.addAttribute("currentUser", currentUser);
@@ -364,15 +341,12 @@ public class StockController {
         model.addAttribute("stockSymbol", stockSymbol);
         model.addAttribute("currentPrice", currentPrice);
 
-
-        // Add other data to the model as needed
-
-        return "buyStock"; // Return the /buyStock page
+        return "buyStock";
     }
 
     @PostMapping("/portfolioSell")
     public String sellStockPageFromPortfolio(Model model, @RequestParam String stockSymbol, @RequestParam Double currentPrice, @RequestParam Double shares, HttpServletRequest request) {
-        // Retrieve the currentUser and other data as needed
+        // Retrieve the currentUser
         User currentUser = (User) request.getSession().getAttribute("currentUser");
         request.getSession().setAttribute("currentUser", currentUser);
         model.addAttribute("currentUser", currentUser);
@@ -382,17 +356,11 @@ public class StockController {
         model.addAttribute("currentPrice", currentPrice);
         model.addAttribute("shares", shares);
 
-        // Add other data to the model as needed
-
-        return "sellStock"; // Return the /buyStock page
+        return "sellStock";
     }
-
-
-
 
     @PostMapping("/addToWatchlist")
     public String addToWatchlist(Model model, @RequestParam String stockSymbol, HttpServletRequest request) {
-        // Retrieve the currentUser and other data as needed
         User currentUser = (User) request.getSession().getAttribute("currentUser");
 
         List<String> watchlist = currentUser.getWatchlist();
@@ -409,15 +377,12 @@ public class StockController {
 
             System.out.println("WATCHLIST CONTENTS WHOLE: " + currentUser.getWatchlist().toString());
 
-            return "redirect:/watchlist"; // Redirect to the watchlist page
+            return "redirect:/watchlist";
         }
 
         System.out.println(stockSymbol + " already added to watchlist!!");
 
-        return "redirect:/watchlist"; // Redirect to the watchlist page
+        return "redirect:/watchlist";
     }
-
-
-
 
 }

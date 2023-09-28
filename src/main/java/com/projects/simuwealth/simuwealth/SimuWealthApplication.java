@@ -11,18 +11,9 @@ import org.springframework.context.event.EventListener;
 @SpringBootApplication
 public class SimuWealthApplication {
 
-	//@Autowired
-	//private EmailSenderService senderService;
-
 	public static void main(String[] args) {
 		SpringApplication.run(SimuWealthApplication.class, args);
 
 	}
-
-	//@EventListener(ApplicationReadyEvent.class)
-	//public void sendMail() {
-		//senderService.sendEmail("jrh0397@gmail.com", "Reset Password Link", "Please reset your password here: ");
-	//}
-
 
 }
