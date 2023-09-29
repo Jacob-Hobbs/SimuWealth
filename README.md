@@ -65,6 +65,7 @@ Spring MVC is a web application framework that follows the MVC architectural pat
 * MySQL Connector J
 * Spring Boot Starter Test
 * Spring Boot Maven Plugin
+* Alpha Vantage Premium API Key [(Purchase)](https://www.alphavantage.co/premium/)
 
 ### Accessing the program
 
@@ -87,6 +88,9 @@ Author can be contacted via the following link:
     * Email link contained within reset email was set to local host endpoint. 
 * 0.2
     * Email link corrected. 
+
+## API Key Notes
+Use of the premium Alpha Vantage API key is reserved for the author, and the author alone. Use outside of that facilitated by the SimuWealth interface is prohibited. The premium key required to run this is not included in code above and will need to be sourced individually. 
 
 ## Acknowledgments
 
