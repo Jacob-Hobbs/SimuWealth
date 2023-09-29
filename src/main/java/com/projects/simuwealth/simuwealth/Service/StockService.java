@@ -20,7 +20,10 @@ import java.util.Map;
 @Service
 public class StockService {
 
-    private final String alphaVantageApiKey = "CJ4959GSEKSYP5DW";
+    // You will need to purchase your own premium key here:
+    // (https://www.alphavantage.co/premium/)
+    
+    private final String alphaVantageApiKey = "YOUR_PREMIUM_API_KEY_HERE";
     private final String alphaVantageBaseUrl = "https://www.alphavantage.co/query";
 
     private final ObjectMapper objectMapper;
