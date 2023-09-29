@@ -10,7 +10,7 @@ _...or make your own credentials!_
 
 ## Description
 
-_SimuWealth_ is an innovative Spring Boot MVC project that showcases the synergy of modern technologies in the realm of finance and education. Hosted on AWS Elastic Beanstalk, this dynamic application leverages Java, Spring Boot, and JPA/Hibernate to create a robust platform. Its foundation rests on a MySQL database, ensuring data integrity and accessibility.
+_SimuWealth_ stands as an inventive Spring Boot MVC project that demonstrates the harmonious integration of cutting-edge technologies in the domains of finance and education, with a unique feature allowing users to engage in paper trading for stocks. Operating seamlessly on AWS Elastic Beanstalk, this dynamic application harnesses the power of Java, Spring Boot, and JPA/Hibernate to construct a resilient and feature-rich platform. At its core lies a MySQL database, safeguarding data integrity and facilitating access, making it an ideal tool for both financial exploration and educational purposes, particularly in the realm of paper trading for stocks.
 
 One of _SimuWealth_'s standout features is its seamless email delivery mechanism through Gmail SMTP. It excels in basic session management and user authentication, providing a secure and personalized experience. _SimuWealth_'s core functionality revolves around real-time and historical stock market data retrieved from the Alpha Vantage API. This empowers users to engage in simulated stock trading using virtual USD, with unique portfolio features tailored to each individual. Users can effortlessly buy and sell paper stocks using real-time data, curate watchlists, and generate insightful reports to monitor their positions effectively. The inclusion of stock time-series data empowers users to make informed financial decisions. Ultimately, _SimuWealth_ is not just a financial application; it is an educational and financial training tool, designed to enhance financial literacy and investment acumen.
 
@@ -34,6 +34,9 @@ Spring MVC is a web application framework that follows the MVC architectural pat
 
 
 ### Email Handling and Session Management 
+* **Password Reset Mechanism**: When a user initiates a password reset request in SimuWealth, a secure and automated process is set into motion. A notification email is promptly dispatched to the user's registered email address by the _SimuWealth_ system, bearing the sender attribution of the _SimuWealth_ team for clarity and trustworthiness. Within this email communication, a strategically crafted hyperlink is embedded, directing the user to a dedicated web page engineered explicitly for password reset procedures. This web page is equipped with a robust and user-friendly interface that facilitates the seamless creation of a new password. This multifaceted approach to password recovery not only ensures a streamlined user experience but also bolsters account security by employing email-based verification.
+
+* **Session Management and Security**: The user's details, including pertinent authentication data and preferences, are securely encapsulated within an active session. To fortify account security, _SimuWealth_ institutes a timeout mechanism, whereby sessions are automatically terminated following a defined period of user inactivity. This diligent session management approach serves as a safeguard against unauthorized access and potential security breaches, thereby upholding the integrity of user accounts and fostering a secure user experience throughout the application.
 
 ## Getting Started
 
