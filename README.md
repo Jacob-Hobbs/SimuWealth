@@ -52,18 +52,9 @@ Spring MVC is a web application framework that follows the MVC architectural pat
 * Spring Boot Starter Test
 * Spring Boot Maven Plugin
 
-### Installing
+### Accessing the program
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
-
-### Executing program
-
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
+SimuWealth is hosted via AWS Elastic Beanstalk and can be accessed using the following link: [SimuWealth Login Portal](https://bit.ly/SimuWealth)
 
 ## Help
 
