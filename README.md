@@ -26,7 +26,7 @@ Spring MVC is a web application framework that follows the MVC architectural pat
 ### User, Stock, and Report CRUD Operations
 * **Create**: _SimuWealth_ encompasses a robust Create functionality, empowering users to initiate various pivotal actions within the application. Firstly, users can seamlessly purchase stocks (thereby generating new stock objects within their portfolio) for realtime market prices. Moreover, _SimuWealth_ facilitates the creation of new user accounts, encompassing essential details such as first name, last name, email, and password. This feature ensures a personalized and secure experience for each user, fostering trust and accountability. Additionally, users can harness the application's capabilities to create timestamped reports, allowing them to meticulously manage their historical positions and overall performance. This feature is instrumental in tracking investment progress over time, facilitating data-driven decision-making. Lastly, SimuWealth empowers users to curate a watchlist of stocks that pique their interest, offering a tailored and convenient way to stay informed about potential investment opportunities.
 
-* **Read**: In _SimuWealth_, the Read aspect of the program offers users a wealth of critical information and insights. Users can access real-time stock information with ease, leveraging both time series and global quote data sourced from the Alpha Advantage API premium service. This feature empowers users to stay informed about current market conditions, enabling informed investment decisions. Furthermore, _SimuWealth_ allows users to draw upon their historical portfolio data, which is stored in the MySQL database, to generate comprehensive reports. This capability not only provides a snapshot of past performance but also aids users in analyzing their investment history, facilitating data-driven strategies for the future. Altogether, the Read functionality in _SimuWealth_ ensures that users have the essential tools to monitor their financial assets, make informed decisions, and gain valuable insights into their investment journey.
+* **Read**: In _SimuWealth_, the Read aspect of the program offers users a wealth of critical information and insights. Users can access real-time stock information with ease, leveraging both time series and global quote data sourced from the Alpha Vantage API premium service. This feature empowers users to stay informed about current market conditions, enabling informed investment decisions. Furthermore, _SimuWealth_ allows users to draw upon their historical portfolio data, which is stored in the MySQL database, to generate comprehensive reports. This capability not only provides a snapshot of past performance but also aids users in analyzing their investment history, facilitating data-driven strategies for the future. Altogether, the Read functionality in _SimuWealth_ ensures that users have the essential tools to monitor their financial assets, make informed decisions, and gain valuable insights into their investment journey.
 * 
 * **Update**: The Update functionality in _SimuWealth_ offers users a dynamic platform to fine-tune and enhance their financial experience. Within their user profile, individuals can easily update key details, including their in-application profile picture, name, and email address, ensuring their information remains current and reflective of their preferences. SimuWealth takes security seriously by incorporating Multi-Factor Authentication (MFA) via email response, enabling users to securely update their passwords, bolstering account protection. Moreover, the application allows users to actively manage their unique portfolio by facilitating stock transactions, whether buying or selling, and updating their fund holdings. This feature ensures that users can adapt their investments in real-time, aligning with their evolving financial goals. Additionally, users can effortlessly maintain and adjust their watchlist cards and generated reports, tailoring their financial management to their specific needs. In summary, _SimuWealth_'s Update functionality empowers users with the flexibility and control to customize their financial journey effectively and securely.
 
@@ -59,7 +59,7 @@ SimuWealth is hosted via AWS Elastic Beanstalk and can be accessed using the fol
 ## Help
 
 * When I search for a stock, why does the daily performance chart not populate with time series data?
-   - As explained by Alpha Advantage API, only certain stock symbols return historical time series data. You will notice that global quote information populates for every stock listed within Alpha Advantage's search API function, which can be used to make educational investments, however the absence of time series data for certain symbols is, admittedly,  a limitation of the technique used in this project. 
+   - As explained by Alpha Vantage API, only certain stock symbols return historical time series data. You will notice that global quote information populates for every stock listed within Alpha Vantage's search API function, which can be used to make educational investments, however the absence of time series data for certain symbols is, admittedly,  a limitation of the technique used in this project. 
 
 ## Authors
 
@@ -74,11 +74,11 @@ Author can be contacted via the following link:
 * 0.2
     * Email link corrected. 
 
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
 ## Acknowledgments
 
 * [Bootstrap Docs](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 * [Spring Initializr](https://start.spring.io/)
+* [Alpha Vantage API Documentation](https://www.alphavantage.co/documentation/)
+
+
+
