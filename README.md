@@ -1,6 +1,8 @@
 # 💲imuWealth
 
-Check it out live here: [SimuWealth Login Portal](https://bit.ly/SimuWealth)
+Check it out live here: (Currently undergoing security maintenance) 
+
+_Note!_ The deployed live demonstration has been temporarily moved offline to implement more robust security features. Please enjoy the screenshots below!
 
 **Username**: _admin@simuwealth.com_ 
 
@@ -69,7 +71,7 @@ Spring MVC is a web application framework that follows the MVC architectural pat
 
 ### Accessing the program
 
-SimuWealth is hosted via AWS Elastic Beanstalk and can be accessed using the following link: [SimuWealth Login Portal](https://bit.ly/SimuWealth)
+SimuWealth is hosted via AWS Elastic Beanstalk and can be accessed using the following link: (Currently undergoing security maintenance) 
 
 ## Help
 
